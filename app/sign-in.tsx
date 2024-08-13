@@ -1,10 +1,9 @@
-import { Link, router } from 'expo-router';
-import { Pressable, Text, View, Image, TextInput } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
-
-import { useSession } from '../context/ctx';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
+import { Pressable, Text, View, Image, TextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Link } from 'expo-router';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useSession } from '../context/ctx';
 
 export default function SignIn() {
   const { signIn } = useSession();
@@ -61,7 +60,6 @@ export default function SignIn() {
             className="p-4 bg-red-500 rounded-full w-full items-center mb-4"
             onPress={() => {
               signIn();
-              router.replace('/');
             }}
           >
             <Text className=" text-white">Entrar</Text>

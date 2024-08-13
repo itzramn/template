@@ -1,5 +1,7 @@
 import { useContext, createContext, type PropsWithChildren } from 'react';
 import { useStorageState } from '@/hooks/useStorageState';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { router } from 'expo-router';
 
 const AuthContext = createContext<{
   signIn: () => void;
@@ -28,13 +30,18 @@ export function useSession() {
 export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('session');
 
+  const authenticate = async () => {
+    const result = await LocalAuthentication.authenticateAsync();
+    if (result.success) {
+      setSession('xxx');
+      router.replace('/');
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
-          // Perform sign-in logic here
-          setSession('xxx');
-        },
+        signIn: authenticate,
         signOut: () => {
           setSession(null);
         },
