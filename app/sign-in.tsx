@@ -28,45 +28,67 @@ export default function SignIn() {
             Inicia sesión para continuar
           </Text>
         </View>
-        <View className="rounded-t-3xl p-4 bg-white h-2/3">
-          <View className="flex flex-row items-center border rounded-xl mb-4 border-slate-400 pl-4">
-            <Ionicons name="mail-outline" size={20} color="black" />
-            <TextInput
-              id="email"
-              className="p-4 w-full "
-              placeholder="Correo"
-            />
-          </View>
-          <View className="flex flex-row items-center border rounded-xl mb-4 border-slate-400 pl-4 pr-4">
-            <Ionicons name="lock-closed-outline" size={20} color="black" />
-            <TextInput
-              id="password"
-              className="flex-1 p-4"
-              placeholder="Contraseña"
-              secureTextEntry={!showPassword}
-            />
-            <Pressable onPress={() => setShowPassword(!showPassword)}>
-              <Ionicons
-                name={showPassword ? 'eye-outline' : 'eye-off-outline'}
-                size={20}
-                color="black"
+        <View className="flex-1 justify-between p-4 bg-white rounded-t-3xl h-2/3">
+          <View>
+            <View className="flex flex-row items-center border rounded-xl mb-4 border-slate-400 pl-4">
+              <Ionicons name="mail-outline" size={20} color="black" />
+              <TextInput
+                id="email"
+                className="p-4 w-full"
+                placeholder="Correo"
               />
+            </View>
+            <View className="flex flex-row items-center border rounded-xl mb-4 border-slate-400 pl-4 pr-4">
+              <Ionicons name="lock-closed-outline" size={20} color="black" />
+              <TextInput
+                id="password"
+                className="flex-1 p-4"
+                placeholder="Contraseña"
+                secureTextEntry={!showPassword}
+              />
+              <Pressable onPress={() => setShowPassword(!showPassword)}>
+                <Ionicons
+                  name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                  size={20}
+                  color="black"
+                />
+              </Pressable>
+            </View>
+            <Link href="/" className="mb-4">
+              <Text className="text-gray-400">¿Olvidaste tu contraseña?</Text>
+            </Link>
+            <Pressable
+              className="p-4 bg-red-500 rounded-full w-full items-center mb-4"
+              onPress={() => {
+                signIn();
+              }}
+            >
+              <Text className="text-white">Entrar</Text>
+            </Pressable>
+            <Pressable className="p-4 bg-black rounded-full w-full items-center mb-4">
+              <Text className="text-white">Registrate</Text>
             </Pressable>
           </View>
-          <Link href="/" className="mb-4">
-            <Text className="text-gray-400">¿Olvidaste tu contraseña?</Text>
-          </Link>
-          <Pressable
-            className="p-4 bg-red-500 rounded-full w-full items-center mb-4"
-            onPress={() => {
-              signIn();
-            }}
-          >
-            <Text className=" text-white">Entrar</Text>
-          </Pressable>
-          <Pressable className="p-4 bg-black rounded-full w-full items-center mb-4">
-            <Text className=" text-white">Registrate</Text>
-          </Pressable>
+          <View>
+            <Text className="text-center text-gray-400">
+              o inicia sesión con
+            </Text>
+            <View className="flex flex-row justify-center mt-4">
+              <Pressable className="flex flex-row p-4 rounded-full border border-slate-400 w-1/2 items-center justify-center mr-2">
+                <Image
+                  source={{
+                    uri: 'https://developers.google.com/static/identity/images/g-logo.png?hl=es-419',
+                  }}
+                  className="mr-2 w-6 h-6"
+                />
+                <Text className="font-bold">Google</Text>
+              </Pressable>
+              <Pressable className="flex flex-row p-4 rounded-full border border-slate-400 w-1/2 items-center justify-center">
+                <Ionicons name="logo-apple" size={20} color="black" />
+                <Text className="font-bold ml-2">Apple</Text>
+              </Pressable>
+            </View>
+          </View>
         </View>
       </View>
     </SafeAreaView>
