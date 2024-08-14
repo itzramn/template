@@ -1,6 +1,6 @@
-import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
+import LottieView from 'lottie-react-native';
 
 export default function Languages() {
   const [selected, setSelected] = useState('es');
@@ -30,13 +30,20 @@ interface Props {
   onSelect: () => void;
   selected?: boolean;
 }
+
 function Language({ name, onSelect, selected = false }: Props) {
   return (
     <Pressable onPress={onSelect}>
       <View className="p-4 bg-white rounded-md flex flex-row justify-between items-center min-h-[64px]">
         <Text>{name}</Text>
         {selected && (
-          <Ionicons name="checkmark-circle" size={24} color="green" />
+          <LottieView
+            source={require('@/assets/lotties/checkmark.json')}
+            autoPlay
+            loop={false}
+            speed={2}
+            style={{ width: 24, height: 24 }}
+          />
         )}
       </View>
     </Pressable>
