@@ -8,7 +8,7 @@ import {
   TextInputProps,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSession } from '../context/ctx';
 
@@ -104,7 +104,7 @@ function ExternalLogin() {
           />
           <Text className="font-bold">Google</Text>
         </Pressable>
-        <Pressable className="flex flex-row p-4 rounded-full border border-slate-400 w-1/2 items-center justify-center">
+        <Pressable className="flex flex-row p-4 rounded-full border border-slate-400 w-1/2 items-center justify-center pb-4">
           <Ionicons name="logo-apple" size={20} color="black" />
           <Text className="font-bold ml-2">Apple</Text>
         </Pressable>
@@ -131,19 +131,25 @@ function SignIn() {
             <InputField
               id="password"
               placeholder="Contraseña"
-              iconName="lock-closed-outline"
+              iconName="key-outline"
               secureTextEntry={!showPassword}
               onPressIcon={() => setShowPassword(!showPassword)}
             />
             <Link href="/" className="mb-4">
-              <Text className="text-gray-400">¿Olvidaste tu contraseña?</Text>
+              <Text className="text-gray-400 text-right">
+                ¿Olvidaste tu contraseña?
+              </Text>
             </Link>
             <ActionButton
               title="Entrar"
               onPress={signIn}
               styleClass="bg-red-500"
             />
-            <ActionButton title="Regístrate" styleClass="bg-black" />
+            <ActionButton
+              title="Regístrate"
+              styleClass="bg-black"
+              onPress={() => router.push('/sign-up')}
+            />
           </View>
           <ExternalLogin />
         </View>
