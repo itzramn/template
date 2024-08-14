@@ -5,6 +5,7 @@ import Switch from 'react-native-ui-lib/switch';
 import { Ionicons } from '@expo/vector-icons';
 import { useSession } from '../../../../context/ctx';
 import { router } from 'expo-router';
+import { SquircleView } from 'react-native-figma-squircle';
 
 export default function Profile() {
   const { signOut } = useSession();
@@ -22,7 +23,9 @@ export default function Profile() {
       <View className="w-full">
         <ActionButton
           title="Cambiar contraseña"
-          onPress={signOut}
+          onPress={() => {
+            router.push('/(app)/profile/change-password');
+          }}
           styleClass="bg-black mb-2"
         />
         <ActionButton
@@ -70,6 +73,7 @@ function Preferences() {
             value="Sistema"
             icon="color-palette-outline"
           />
+
           <PreferenceItemSwitcher
             text="Notificaciones"
             value="Activadas"
@@ -106,9 +110,16 @@ interface Props {
 function PreferenceItem({ text, icon, value = '' }: Props) {
   return (
     <View className="flex flex-row items-center mb-2">
-      <View className="p-2 bg-slate-300 rounded-lg mr-2">
+      <SquircleView
+        className="p-2 mr-2"
+        squircleParams={{
+          cornerSmoothing: 0.7,
+          cornerRadius: 10,
+          fillColor: '#cbd5e1',
+        }}
+      >
         <Ionicons name={icon} size={24} color="#475569" />
-      </View>
+      </SquircleView>
       <Text>{text}</Text>
       <View className="ml-auto flex flex-row items-center">
         <Text className="text-slate-500">{value}</Text>
@@ -122,9 +133,16 @@ function PreferenceItemSwitcher({ text, icon }: Props) {
   const [isEnabled, setIsEnabled] = useState(false);
   return (
     <View className="flex flex-row items-center mb-2">
-      <View className="p-2 bg-slate-300 rounded-lg mr-2">
+      <SquircleView
+        className="p-2 mr-2"
+        squircleParams={{
+          cornerSmoothing: 0.7,
+          cornerRadius: 10,
+          fillColor: '#cbd5e1',
+        }}
+      >
         <Ionicons name={icon} size={24} color="#475569" />
-      </View>
+      </SquircleView>
       <Text className="mr-auto">{text}</Text>
       <Switch
         className=""
@@ -154,3 +172,7 @@ function ActionButton({ title, onPress, styleClass }: ActionButtonProps) {
     </Pressable>
   );
 }
+
+//bg-slate-300 = #cbd5e1
+//bg-slate-500 = #64748b
+//bg-slate-600 = #475569

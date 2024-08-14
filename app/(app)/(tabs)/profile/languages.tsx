@@ -7,14 +7,14 @@ export default function Languages() {
 
   return (
     <View className="px-4 py-1">
-      <View className="-mx-3 mb-1">
+      <View className="-mx-4">
         <Language
           name="Inglés"
           selected={selected === 'en'}
           onSelect={() => setSelected('en')}
         />
       </View>
-      <View className="-mx-3 mb-1">
+      <View className="-mx-4">
         <Language
           name="Español"
           selected={selected === 'es'}
@@ -34,7 +34,7 @@ interface Props {
 function Language({ name, onSelect, selected = false }: Props) {
   return (
     <Pressable onPress={onSelect}>
-      <View className="p-4 bg-white rounded-md flex flex-row justify-between items-center min-h-[64px]">
+      <View className="p-4 border-b border-slate-400 flex flex-row justify-between items-center min-h-[64px]">
         <Text>{name}</Text>
         {selected && (
           <LottieView
