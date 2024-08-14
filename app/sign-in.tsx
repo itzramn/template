@@ -19,12 +19,6 @@ interface InputFieldProps extends TextInputProps {
   onPressIcon?: () => void;
 }
 
-interface ActionButtonProps {
-  title: string;
-  onPress?: () => void;
-  styleClass: string;
-}
-
 function Header() {
   return (
     <View className="p-3 h-1/3 justify-end">
@@ -79,17 +73,6 @@ function InputField({
   );
 }
 
-function ActionButton({ title, onPress, styleClass }: ActionButtonProps) {
-  return (
-    <Pressable
-      className={`p-4 rounded-full w-full items-center mb-4 ${styleClass}`}
-      onPress={onPress}
-    >
-      <Text className="text-white">{title}</Text>
-    </Pressable>
-  );
-}
-
 function ExternalLogin() {
   return (
     <View>
@@ -140,16 +123,28 @@ function SignIn() {
                 ¿Olvidaste tu contraseña?
               </Text>
             </Link>
-            <ActionButton
-              title="Entrar"
+            <Pressable
+              className="p-4 rounded-full w-full items-center mb-4 bg-red-500 shadow-sm shadow-red-800"
               onPress={signIn}
-              styleClass="bg-red-500"
-            />
-            <ActionButton
-              title="Regístrate"
-              styleClass="bg-black"
-              onPress={() => router.push('/sign-up')}
-            />
+            >
+              <Text
+                className="text-white font-semibold"
+                style={{ fontFamily: 'Nunito' }}
+              >
+                Ingresar
+              </Text>
+            </Pressable>
+            <Pressable
+              className="p-4 rounded-full w-full items-center mb-4 bg-zinc-300"
+              onPress={() => router.replace('/sign-up')}
+            >
+              <Text
+                className="text-black font-semibold"
+                style={{ fontFamily: 'Nunito' }}
+              >
+                Regístrate
+              </Text>
+            </Pressable>
           </View>
           <ExternalLogin />
         </View>
