@@ -83,7 +83,7 @@ function ExternalLogin() {
             source={{
               uri: 'https://developers.google.com/static/identity/images/g-logo.png?hl=es-419',
             }}
-            className="mr-2 w-6 h-6"
+            className="mr-2 w-4 h-4"
           />
           <Text className="font-bold">Google</Text>
         </Pressable>
@@ -96,7 +96,7 @@ function ExternalLogin() {
   );
 }
 
-function SignIn() {
+export default function SignIn() {
   const { signIn } = useSession();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -118,7 +118,7 @@ function SignIn() {
               secureTextEntry={!showPassword}
               onPressIcon={() => setShowPassword(!showPassword)}
             />
-            <Link href="/" className="mb-4">
+            <Link href="/recover-password" className="mb-4">
               <Text className="text-gray-400 text-right">
                 ¿Olvidaste tu contraseña?
               </Text>
@@ -152,5 +152,3 @@ function SignIn() {
     </SafeAreaView>
   );
 }
-
-export default SignIn;

@@ -3,10 +3,10 @@ import { router } from 'expo-router';
 import {
   Pressable,
   Text,
-  TextInputProps,
-  View,
   TextInput,
+  View,
   ScrollView,
+  TextInputProps,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -50,8 +50,7 @@ function InputField({
     </View>
   );
 }
-
-export default function SignUp() {
+export default function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -59,53 +58,35 @@ export default function SignUp() {
     <SafeAreaView className="flex flex-1 justify-between">
       <View className="pt-4 px-4">
         <View className="items-center mb-4">
-          <View className="w-24 h-24 bg-black rounded-lg" />
+          <View className="w-full h-48 bg-black rounded-lg" />
         </View>
         <Text
           className="text-2xl font-bold"
           style={{ fontFamily: 'Quicksand' }}
         >
-          Regístrate
+          Restablecer Contraseña
         </Text>
         <Text
           className="text-lg mb-4 text-gray-400"
           style={{ fontFamily: 'Nunito' }}
         >
-          Ingresa los datos que utilizarás para acceder a tu cuenta.
+          Ingresa tu nueva contraseña.
         </Text>
         <InputField
-          id="name"
-          placeholder="Nombre"
-          iconName="person-outline"
-          style={{ fontFamily: 'Inter' }}
-        />
-        <InputField
-          id="email"
-          placeholder="Correo"
-          iconName="mail-outline"
-          style={{ fontFamily: 'Inter' }}
-        />
-        <InputField
-          id="phone"
-          placeholder="Teléfono"
-          iconName="call-outline"
-          style={{ fontFamily: 'Inter' }}
-        />
-        <InputField
           id="password"
-          placeholder="Contraseña"
+          placeholder="Nueva Contraseña"
           iconName="key-outline"
-          style={{ fontFamily: 'Inter' }}
           secureTextEntry={!showPassword}
           onPressIcon={() => setShowPassword(!showPassword)}
+          style={{ fontFamily: 'Inter' }}
         />
         <InputField
           id="confirmPassword"
-          placeholder="Confirmar contraseña"
+          placeholder="Confirmar nueva contraseña"
           iconName="key-outline"
-          style={{ fontFamily: 'Inter' }}
           secureTextEntry={!showConfirmPassword}
           onPressIcon={() => setShowConfirmPassword(!showConfirmPassword)}
+          style={{ fontFamily: 'Inter' }}
         />
       </View>
       <View className="px-4 pb-2">
@@ -117,7 +98,7 @@ export default function SignUp() {
             className="text-white font-semibold"
             style={{ fontFamily: 'Nunito' }}
           >
-            Continuar
+            Restablecer Contraseña
           </Text>
         </Pressable>
         <Pressable
@@ -128,7 +109,7 @@ export default function SignUp() {
             className="text-black font-semibold"
             style={{ fontFamily: 'Nunito' }}
           >
-            Regresar
+            Cancelar
           </Text>
         </Pressable>
       </View>
