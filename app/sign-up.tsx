@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import { router } from 'expo-router';
-import {
-  Pressable,
-  Text,
-  TextInputProps,
-  View,
-  TextInput,
-  Image,
-} from 'react-native';
+import { Pressable, Text, TextInputProps, View, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -61,17 +54,41 @@ const SignInScreen = () => {
         <View className="items-center mb-4">
           <View className="w-24 h-24 bg-black rounded-lg" />
         </View>
-        <Text className="text-2xl font-bold">Regístrate</Text>
-        <Text className="text-lg mb-4 text-gray-400">
+        <Text
+          className="text-2xl font-bold"
+          style={{ fontFamily: 'Quicksand' }}
+        >
+          Regístrate
+        </Text>
+        <Text
+          className="text-lg mb-4 text-gray-400"
+          style={{ fontFamily: 'Nunito' }}
+        >
           Ingresa los datos que utilizarás para acceder a tu cuenta.
         </Text>
-        <InputField id="name" placeholder="Nombre" iconName="person-outline" />
-        <InputField id="email" placeholder="Correo" iconName="mail-outline" />
-        <InputField id="phone" placeholder="Teléfono" iconName="call-outline" />
+        <InputField
+          id="name"
+          placeholder="Nombre"
+          iconName="person-outline"
+          style={{ fontFamily: 'Inter' }}
+        />
+        <InputField
+          id="email"
+          placeholder="Correo"
+          iconName="mail-outline"
+          style={{ fontFamily: 'Inter' }}
+        />
+        <InputField
+          id="phone"
+          placeholder="Teléfono"
+          iconName="call-outline"
+          style={{ fontFamily: 'Inter' }}
+        />
         <InputField
           id="password"
           placeholder="Contraseña"
           iconName="key-outline"
+          style={{ fontFamily: 'Inter' }}
           secureTextEntry={!showPassword}
           onPressIcon={() => setShowPassword(!showPassword)}
         />
@@ -79,22 +96,33 @@ const SignInScreen = () => {
           id="confirmPassword"
           placeholder="Confirmar contraseña"
           iconName="key-outline"
+          style={{ fontFamily: 'Inter' }}
           secureTextEntry={!showConfirmPassword}
           onPressIcon={() => setShowConfirmPassword(!showConfirmPassword)}
         />
       </View>
-      <View className="px-4 pb-4">
+      <View className="px-4 pb-2">
         <Pressable
-          className="p-4 rounded-full w-full items-center mb-4 bg-red-500"
-          onPress={() => router.push('/sign-in')}
+          className="p-4 rounded-full w-full items-center mb-4 bg-red-500 shadow-sm shadow-red-800"
+          onPress={() => router.replace('/sign-in')}
         >
-          <Text className="text-white">Enviar</Text>
+          <Text
+            className="text-white font-semibold"
+            style={{ fontFamily: 'Nunito' }}
+          >
+            Continuar
+          </Text>
         </Pressable>
         <Pressable
-          className="p-4 rounded-full w-full items-center mb-4 bg-black"
-          onPress={() => router.push('/sign-in')}
+          className="p-4 rounded-full w-full items-center mb-4 bg-zinc-300"
+          onPress={() => router.replace('/sign-in')}
         >
-          <Text className="text-white">Regresar</Text>
+          <Text
+            className="text-black font-semibold"
+            style={{ fontFamily: 'Nunito' }}
+          >
+            Regresar
+          </Text>
         </Pressable>
       </View>
     </SafeAreaView>
