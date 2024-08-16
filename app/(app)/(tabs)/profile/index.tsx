@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Switch from 'react-native-ui-lib/switch';
 import { Ionicons } from '@expo/vector-icons';
 import { useSession } from '../../../../context/ctx';
 import { router } from 'expo-router';
 import { SquircleView } from 'react-native-figma-squircle';
+import ThemedSafeAreaView from '@/components/common/ThemedSafeAreaView';
 
 export default function Profile() {
   const { signOut } = useSession();
   return (
-    <SafeAreaView className="flex flex-1 items-center justify-between px-4 py-2">
+    <ThemedSafeAreaView txtClassName="flex flex-1 items-center justify-between px-4 py-2">
       <View className="w-full">
         <View className="mb-4">
           <User />
@@ -34,7 +34,7 @@ export default function Profile() {
           styleClass="bg-red-500"
         />
       </View>
-    </SafeAreaView>
+    </ThemedSafeAreaView>
   );
 }
 
