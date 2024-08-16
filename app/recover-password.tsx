@@ -1,21 +1,14 @@
 import { router } from 'expo-router';
-import {
-  View,
-  Text,
-  Pressable,
-  TextInputProps,
-  TextInput,
-  ScrollView,
-} from 'react-native';
+import { View, Text, Pressable, TextInputProps, TextInput } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-interface InputFieldProps extends TextInputProps {
+type InputFieldProps = TextInputProps & {
   id: string;
   iconName: keyof typeof Ionicons.glyphMap;
   secureTextEntry?: boolean;
   onPressIcon?: () => void;
-}
+};
 
 function InputField({
   id,

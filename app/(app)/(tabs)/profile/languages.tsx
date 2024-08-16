@@ -25,13 +25,13 @@ export default function Languages() {
   );
 }
 
-interface Props {
+type LanguageProps = {
   name: string;
   onSelect: () => void;
   selected?: boolean;
-}
+};
 
-function Language({ name, onSelect, selected = false }: Props) {
+function Language({ name, onSelect, selected = false }: LanguageProps) {
   return (
     <Pressable onPress={onSelect}>
       <View className="p-4 border-b border-slate-400 flex flex-row justify-between items-center min-h-[64px]">

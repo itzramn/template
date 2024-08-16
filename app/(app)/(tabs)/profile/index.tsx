@@ -102,12 +102,12 @@ function Preferences() {
   );
 }
 
-interface Props {
+type PreferenceItemProps = {
   text: string;
   value?: string;
   icon: keyof typeof Ionicons.glyphMap;
-}
-function PreferenceItem({ text, icon, value = '' }: Props) {
+};
+function PreferenceItem({ text, icon, value = '' }: PreferenceItemProps) {
   return (
     <View className="flex flex-row items-center mb-2">
       <SquircleView
@@ -129,7 +129,7 @@ function PreferenceItem({ text, icon, value = '' }: Props) {
   );
 }
 
-function PreferenceItemSwitcher({ text, icon }: Props) {
+function PreferenceItemSwitcher({ text, icon }: PreferenceItemProps) {
   const [isEnabled, setIsEnabled] = useState(false);
   return (
     <View className="flex flex-row items-center mb-2">
@@ -156,11 +156,11 @@ function PreferenceItemSwitcher({ text, icon }: Props) {
   );
 }
 
-interface ActionButtonProps {
+type ActionButtonProps = {
   title: string;
   onPress?: () => void;
   styleClass: string;
-}
+};
 
 function ActionButton({ title, onPress, styleClass }: ActionButtonProps) {
   return (

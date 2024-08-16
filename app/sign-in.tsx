@@ -12,12 +12,12 @@ import { Link, router } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSession } from '../context/ctx';
 
-interface InputFieldProps extends TextInputProps {
+type InputFieldProps = TextInputProps & {
   id: string;
   iconName: keyof typeof Ionicons.glyphMap;
   secureTextEntry?: boolean;
   onPressIcon?: () => void;
-}
+};
 
 function Header() {
   return (

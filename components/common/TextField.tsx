@@ -1,15 +1,13 @@
 import { Ionicons } from '@expo/vector-icons';
 import { View, TextInput, Pressable, TextInputProps } from 'react-native';
 
-interface TextFieldProps extends TextInputProps {
+type TextFieldProps = TextInputProps & {
   iconName: keyof typeof Ionicons.glyphMap;
   id?: string;
   onIconPress?: () => void;
-}
+};
 
 export default function TextField({
-  id,
-  placeholder,
   iconName,
   secureTextEntry,
   onIconPress,
@@ -21,9 +19,7 @@ export default function TextField({
     >
       <Ionicons name={iconName} size={20} color="black" />
       <TextInput
-        id={id}
         className="flex-1 p-4"
-        placeholder={placeholder}
         secureTextEntry={secureTextEntry}
         {...props}
       />
