@@ -1,17 +1,30 @@
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { View } from 'react-native';
+import { View, type ViewProps } from 'react-native';
 
-type ThemedViewProps = {
-  children: React.ReactNode;
+import { useThemeColor } from '@/hooks/useThemeColor';
+
+export type ThemedViewProps = ViewProps & {
+  lightColor?: string;
+  darkColor?: string;
   txtClassName?: string;
 };
 
-export default function ThemedView({
-  children,
+export function ThemedView({
+  style,
+  lightColor,
+  darkColor,
   txtClassName = '',
+  ...otherProps
 }: ThemedViewProps) {
-  const backgroundColor = useThemeColor({}, 'background');
-  const tailwindClass = `bg-${backgroundColor}`;
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    'background'
+  );
 
-  return <View className={`${tailwindClass} ${txtClassName}`}>{children}</View>;
+  return (
+    <View
+      className={txtClassName}
+      style={[{ backgroundColor }, style]}
+      {...otherProps}
+    />
+  );
 }

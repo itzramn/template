@@ -1,21 +1,31 @@
+import { type ViewProps } from 'react-native';
+
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-type ThemedSafeAreaViewProps = {
-  children: React.ReactNode;
+export type ThemedViewProps = ViewProps & {
+  lightColor?: string;
+  darkColor?: string;
   txtClassName?: string;
 };
 
-export default function ThemedSafeAreaView({
-  children,
+export function ThemedSafeAreaView({
+  style,
+  lightColor,
+  darkColor,
   txtClassName = '',
-}: ThemedSafeAreaViewProps) {
-  const backgroundColor = useThemeColor({}, 'background');
-  const tailwindClass = `bg-${backgroundColor}`;
+  ...otherProps
+}: ThemedViewProps) {
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    'background'
+  );
 
   return (
-    <SafeAreaView className={`${tailwindClass} ${txtClassName}`}>
-      {children}
-    </SafeAreaView>
+    <SafeAreaView
+      className={txtClassName}
+      style={[{ backgroundColor }, style]}
+      {...otherProps}
+    />
   );
 }

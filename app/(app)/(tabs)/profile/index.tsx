@@ -1,11 +1,13 @@
-import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, View } from 'react-native';
 import Switch from 'react-native-ui-lib/switch';
-import { Ionicons } from '@expo/vector-icons';
-import { useSession } from '../../../../context/ctx';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { SquircleView } from 'react-native-figma-squircle';
-import ThemedSafeAreaView from '@/components/common/ThemedSafeAreaView';
+import { ThemedSafeAreaView } from '@/components/common/ThemedSafeAreaView';
+import { ThemedText } from '@/components/common/ThemedText';
+import { useSession } from '../../../../context/ctx';
+import Button from '@/components/common/Button';
 
 export default function Profile() {
   const { signOut } = useSession();
@@ -21,18 +23,18 @@ export default function Profile() {
       </View>
 
       <View className="w-full">
-        <ActionButton
-          title="Cambiar contraseña"
+        <Button
+          txtClassName="mb-2"
           onPress={() => {
             router.push('/(app)/profile/change-password');
           }}
-          styleClass="bg-black mb-2"
-        />
-        <ActionButton
-          title="Cerrar sesión"
-          onPress={signOut}
-          styleClass="bg-red-500"
-        />
+        >
+          Cambiar contraseña
+        </Button>
+
+        <Button color="danger" onPress={signOut}>
+          Cerrar sesión
+        </Button>
       </View>
     </ThemedSafeAreaView>
   );
@@ -42,8 +44,10 @@ function User() {
   return (
     <View>
       <View className="bg-black rounded-full w-[80px] h-[80px] mb-2 mx-auto" />
-      <Text className="text-2xl text-center">Dwit México</Text>
-      <Text className="text-center text-slate-500">dwit@outlook.com</Text>
+      <ThemedText className="text-2xl text-center">Dwit México</ThemedText>
+      <ThemedText className="text-center text-slate-500">
+        dwit@outlook.com
+      </ThemedText>
     </View>
   );
 }
@@ -52,9 +56,9 @@ function Preferences() {
   return (
     <View>
       <View className="mb-4">
-        <Text className="text-left text-slate-500 text-xs font-semibold">
+        <ThemedText className="text-left text-slate-500 text-xs font-semibold">
           Preferencias
-        </Text>
+        </ThemedText>
         <View className="mt-1 -mb-2">
           <Pressable
             onPress={() => {
@@ -68,11 +72,17 @@ function Preferences() {
             />
           </Pressable>
 
-          <PreferenceItem
-            text="Tema"
-            value="Sistema"
-            icon="color-palette-outline"
-          />
+          <Pressable
+            onPress={() => {
+              router.push('/(app)/profile/theme');
+            }}
+          >
+            <PreferenceItem
+              text="Tema"
+              value="Sistema"
+              icon="color-palette-outline"
+            />
+          </Pressable>
 
           <PreferenceItemSwitcher
             text="Notificaciones"
@@ -87,9 +97,9 @@ function Preferences() {
         </View>
       </View>
       <View>
-        <Text className="text-left text-slate-500 text-xs font-semibold">
+        <ThemedText className="text-left text-slate-500 text-xs font-semibold">
           Soporte
-        </Text>
+        </ThemedText>
         <View className="mt-1 -mb-2">
           <PreferenceItem text="Contáctanos" icon="call-outline" />
           <PreferenceItem
@@ -120,9 +130,9 @@ function PreferenceItem({ text, icon, value = '' }: PreferenceItemProps) {
       >
         <Ionicons name={icon} size={24} color="#475569" />
       </SquircleView>
-      <Text>{text}</Text>
+      <ThemedText>{text}</ThemedText>
       <View className="ml-auto flex flex-row items-center">
-        <Text className="text-slate-500">{value}</Text>
+        <ThemedText className="text-slate-500">{value}</ThemedText>
         <Ionicons name="chevron-forward" size={24} color="#64748b" />
       </View>
     </View>
@@ -143,7 +153,7 @@ function PreferenceItemSwitcher({ text, icon }: PreferenceItemProps) {
       >
         <Ionicons name={icon} size={24} color="#475569" />
       </SquircleView>
-      <Text className="mr-auto">{text}</Text>
+      <ThemedText className="mr-auto">{text}</ThemedText>
       <Switch
         className=""
         value={isEnabled}
@@ -153,23 +163,6 @@ function PreferenceItemSwitcher({ text, icon }: PreferenceItemProps) {
         onColor="#000"
       />
     </View>
-  );
-}
-
-type ActionButtonProps = {
-  title: string;
-  onPress?: () => void;
-  styleClass: string;
-};
-
-function ActionButton({ title, onPress, styleClass }: ActionButtonProps) {
-  return (
-    <Pressable
-      className={`p-4 rounded-full w-full items-center mb-4 ${styleClass}`}
-      onPress={onPress}
-    >
-      <Text className="text-white">{title}</Text>
-    </Pressable>
   );
 }
 

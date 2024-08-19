@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { View } from 'react-native';
 import Button from '@/components/common/Button';
 import TextField from '@/components/common/TextField';
+import { ThemedView } from '@/components/common/ThemedView';
 
 export default function ChangePassword() {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
 
   return (
-    <View className="px-4 py-2 flex flex-1 items-center">
+    <ThemedView className="px-4 py-2 flex flex-1 items-center">
       <View className="w-full">
         <TextField
           placeholder="Contraseña actual"
@@ -28,8 +29,8 @@ export default function ChangePassword() {
           secureTextEntry={!showNewPassword}
           onIconPress={() => setShowNewPassword(!showNewPassword)}
         />
-        <Button color="black">Guardar</Button>
+        <Button color="primary">Guardar</Button>
       </View>
-    </View>
+    </ThemedView>
   );
 }

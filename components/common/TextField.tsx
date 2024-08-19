@@ -1,3 +1,4 @@
+import { useThemeColor } from '@/hooks/useThemeColor';
 import { Ionicons } from '@expo/vector-icons';
 import { View, TextInput, Pressable, TextInputProps } from 'react-native';
 
@@ -13,14 +14,17 @@ export default function TextField({
   onIconPress,
   ...props
 }: TextFieldProps) {
+  const textColor = useThemeColor({}, 'text');
+
   return (
     <View
       className={`flex flex-row items-center border rounded-xl mb-4 border-slate-400 ${onIconPress ? 'pl-4 pr-4' : 'pl-4'}`}
     >
-      <Ionicons name={iconName} size={20} color="black" />
+      <Ionicons name={iconName} size={20} color={textColor} />
       <TextInput
         className="flex-1 p-4"
         secureTextEntry={secureTextEntry}
+        placeholderTextColor={textColor}
         {...props}
       />
       {onIconPress && (
@@ -28,7 +32,7 @@ export default function TextField({
           <Ionicons
             name={secureTextEntry ? 'eye-off-outline' : 'eye-outline'}
             size={20}
-            color="black"
+            color={textColor}
           />
         </Pressable>
       )}

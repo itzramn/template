@@ -16,6 +16,7 @@ type ButtonProps = PressableProps & {
   color?: ColorNames;
   size?: 'sm' | 'md' | 'lg';
   variant?: 'solid' | 'light';
+  txtClassName?: string;
 };
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -26,6 +27,7 @@ export default function Button({
   color = 'primary',
   size = 'md',
   variant = 'solid',
+  txtClassName,
   ...rest
 }: ButtonProps) {
   const baseStyle = 'w-full items-center';
@@ -62,7 +64,7 @@ export default function Button({
     <AnimatedPressable
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      className={`${baseStyle} ${roundedStyle} ${sizeStyle}`}
+      className={`${baseStyle} ${roundedStyle} ${sizeStyle} ${txtClassName}`}
       style={animatedStyle}
       {...rest}
     >

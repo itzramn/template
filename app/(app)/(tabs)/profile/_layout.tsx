@@ -1,12 +1,17 @@
+import { useThemeColor } from '@/hooks/useThemeColor';
 import { Stack } from 'expo-router/stack';
 
 export default function Layout() {
+  const backgroundColor = useThemeColor({}, 'background');
+  const tintColor = useThemeColor({}, 'tint');
+
   return (
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#f2f2f2',
+          backgroundColor: backgroundColor,
         },
+        headerTintColor: tintColor,
         headerShadowVisible: false,
       }}
     >
@@ -21,6 +26,13 @@ export default function Layout() {
         options={{
           headerShown: true,
           title: 'Selecciona el idioma',
+        }}
+      />
+      <Stack.Screen
+        name="theme"
+        options={{
+          headerShown: true,
+          title: 'Selecciona un tema',
         }}
       />
       <Stack.Screen
