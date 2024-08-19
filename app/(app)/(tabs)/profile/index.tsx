@@ -12,7 +12,7 @@ import Button from '@/components/common/Button';
 export default function Profile() {
   const { signOut } = useSession();
   return (
-    <ThemedSafeAreaView txtClassName="flex flex-1 items-center justify-between px-4 py-2">
+    <ThemedSafeAreaView txtClassName="flex flex-1 items-center justify-between px-4 py-4">
       <View className="w-full">
         <View className="mb-4">
           <User />
@@ -43,7 +43,12 @@ export default function Profile() {
 function User() {
   return (
     <View>
-      <View className="bg-black rounded-full w-[80px] h-[80px] mb-2 mx-auto" />
+      <View
+        className="rounded-full w-[80px] h-[80px] mb-2 mx-auto"
+        style={{
+          backgroundColor: '#000',
+        }}
+      />
       <ThemedText className="text-2xl text-center">Dwit México</ThemedText>
       <ThemedText className="text-center text-slate-500">
         dwit@outlook.com
