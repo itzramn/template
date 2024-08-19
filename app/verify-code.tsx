@@ -1,20 +1,22 @@
 import React, { useState, useRef } from 'react';
 import { router } from 'expo-router';
 import {
-  Pressable,
   Text,
   TextInput,
   View,
-  ScrollView,
   NativeSyntheticEvent,
   TextInputKeyPressEventData,
   TextInput as TextInputType,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ThemedSafeAreaView } from '@/components/common/ThemedSafeAreaView';
+import { ThemedText } from '@/components/common/ThemedText';
+import Button from '@/components/common/Button';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
 export default function VerifyCode() {
   const [code, setCode] = useState<string[]>(['', '', '', '', '']);
-  const refs = useRef<Array<TextInputType | null>>([]);
+  const refs = useRef<(TextInputType | null)[]>([]);
+  const textColor = useThemeColor({}, 'text');
 
   const handleChangeText = (text: string, index: number) => {
     if (text.length > 1) {
@@ -37,17 +39,17 @@ export default function VerifyCode() {
   };
 
   return (
-    <SafeAreaView className="flex flex-1 justify-between">
+    <ThemedSafeAreaView className="flex flex-1 justify-between">
       <View className="pt-4 px-4">
         <View className="items-center mb-4">
           <View className="w-full h-48 bg-black rounded-lg" />
         </View>
-        <Text
-          className="text-2xl font-bold"
-          style={{ fontFamily: 'Quicksand' }}
+        <ThemedText
+          className="text-2xl text-primary-500"
+          style={{ fontFamily: 'QuicksandBold' }}
         >
-          Verificar Código
-        </Text>
+          Verificar código
+        </ThemedText>
         <Text
           className="text-lg mb-4 text-gray-400"
           style={{ fontFamily: 'Nunito' }}
@@ -74,28 +76,24 @@ export default function VerifyCode() {
                 fontSize: 24,
                 paddingVertical: 10,
                 width: 50,
+                color: textColor,
               }}
             />
           ))}
         </View>
       </View>
       <View className="px-4 pb-2">
-        <Pressable
-          className="p-4 rounded-full w-full items-center mb-4 bg-red-500 shadow-sm shadow-red-800"
+        <Button
+          txtClassName="mb-4"
           onPress={() => {
-            const codeValue = code.join('');
+            //const codeValue = code.join('');
             // Aquí puedes manejar la verificación del código
             router.replace('/reset-password');
           }}
         >
-          <Text
-            className="text-white font-semibold"
-            style={{ fontFamily: 'Nunito' }}
-          >
-            Siguiente
-          </Text>
-        </Pressable>
+          Siguiente
+        </Button>
       </View>
-    </SafeAreaView>
+    </ThemedSafeAreaView>
   );
 }

@@ -25,6 +25,7 @@ export default function TextField({
         className="flex-1 p-4"
         secureTextEntry={secureTextEntry}
         placeholderTextColor={textColor}
+        style={{ color: textColor, fontFamily: 'Inter' }}
         {...props}
       />
       {onIconPress && (

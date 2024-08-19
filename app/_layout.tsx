@@ -24,7 +24,7 @@ export default function RootLayout() {
     NunitoBold: require('../assets/fonts/Nunito-Bold.ttf'),
     QuicksandLight: require('../assets/fonts/Quicksand-Light.ttf'),
     QuicksandMedium: require('../assets/fonts/Quicksand-Medium.ttf'),
-    QuicksandRegular: require('../assets/fonts/Quicksand-Regular.ttf'),
+    'Quicksand-Regular': require('../assets/fonts/Quicksand-Regular.ttf'),
     QuicksandSemiBold: require('../assets/fonts/Quicksand-SemiBold.ttf'),
     QuicksandBold: require('../assets/fonts/Quicksand-Bold.ttf'),
   });

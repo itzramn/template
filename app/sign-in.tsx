@@ -27,12 +27,7 @@ function Header() {
         />
       </View>
       {/*This had slate*/}
-      <Text
-        className="text-2xl font-bold mb-2"
-        style={{
-          color: headerTextColor,
-        }}
-      >
+      <Text className="text-2xl font-bold mb-2 text-primary-500">
         Conoce la mejor app de React
       </Text>
       <Text
