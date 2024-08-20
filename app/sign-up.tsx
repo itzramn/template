@@ -6,17 +6,24 @@ import { ThemedText } from '../components/common/ThemedText';
 import TextField from '@/components/common/TextField';
 import Button from '@/components/common/Button';
 import { SubmitHandler, useForm } from 'react-hook-form';
-//import { AuthAPI } from '@/api/auth.api';
-import { SignUpData } from '@/types/auth';
+import { AuthAPI } from '@/api/auth.api';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-const schema = z.object({
-  name: z.string().max(50),
-  username: z.string().min(5).max(20),
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+const schema = z
+  .object({
+    name: z.string().max(50),
+    username: z.string().min(5).max(20),
+    email: z.string().email(),
+    password: z.string().min(8),
+    confirmPassword: z.string().min(8),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Las contraseñas no coinciden',
+    path: ['confirmPassword'],
+  });
+
+type FormFields = z.infer<typeof schema>;
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,11 +32,15 @@ export default function SignUp() {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<SignUpData>({
+  } = useForm<FormFields>({
     resolver: zodResolver(schema),
   });
-  const onSubmit: SubmitHandler<SignUpData> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
+    const authAPI = new AuthAPI();
+    await authAPI.signUp({
+      ...data,
+      role: 'admin',
+    });
   };
   return (
     <ThemedSafeAreaView className="flex flex-1 justify-between">
@@ -89,6 +100,7 @@ export default function SignUp() {
           iconName="key-outline"
           secureTextEntry={!showConfirmPassword}
           control={control}
+          error={errors.confirmPassword?.message}
           onIconPress={() => setShowConfirmPassword(!showConfirmPassword)}
         />
       </View>

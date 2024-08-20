@@ -7,6 +7,12 @@ export class AuthAPI extends BaseAPI {
   }
 
   public async signUp(data: SignUpData) {
-    return this.api.post('/auth/signup', data);
+    try {
+      console.log(data);
+      const response = await this.api.post('/auth/sign-up', data);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
