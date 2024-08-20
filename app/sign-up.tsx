@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { router } from 'expo-router';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ThemedSafeAreaView } from '@/components/common/ThemedSafeAreaView';
 import { ThemedText } from '../components/common/ThemedText';
 import TextField from '@/components/common/TextField';
 import Button from '@/components/common/Button';
-import { SubmitHandler, useForm } from 'react-hook-form';
 import { AuthAPI } from '@/api/auth.api';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+
+const authAPI = new AuthAPI();
 
 const schema = z
   .object({
@@ -32,15 +34,16 @@ export default function SignUp() {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
+    setError,
   } = useForm<FormFields>({
     resolver: zodResolver(schema),
   });
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    const authAPI = new AuthAPI();
-    await authAPI.signUp({
+    const result = await authAPI.signUp({
       ...data,
       role: 'admin',
     });
+    if (!result.success) setError('root', { message: result.message });
   };
   return (
     <ThemedSafeAreaView className="flex flex-1 justify-between">
@@ -105,15 +108,19 @@ export default function SignUp() {
         />
       </View>
       <View className="px-4 pb-2">
-        <Button
-          txtClassName="mb-4"
-          onPress={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
-        >
+        <Button onPress={handleSubmit(onSubmit)} disabled={isSubmitting}>
           Continuar
         </Button>
+        {errors.root && (
+          <Text
+            className="text-red-500 text-xs mt-1"
+            style={{ fontFamily: 'Inter' }}
+          >
+            {errors.root.message}
+          </Text>
+        )}
         <Pressable
-          className="p-4 rounded-full w-full items-center mb-4 bg-zinc-300"
+          className="p-4 rounded-full w-full items-center my-4 bg-zinc-300"
           onPress={() => router.replace('/sign-in')}
         >
           <Text
