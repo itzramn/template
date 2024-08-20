@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const hexToRGBA = (hex: string, alpha?: number) => {
   hex = hex.replace(/^#/, '');
 
@@ -14,3 +16,10 @@ export const hexToRGBA = (hex: string, alpha?: number) => {
 
   return `rgba(${r}, ${g}, ${b}, ${alpha ?? 1})`;
 };
+
+export const API = axios.create({
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
