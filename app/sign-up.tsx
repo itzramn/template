@@ -28,16 +28,15 @@ export default function SignUp() {
   } = useForm<SignUpData>({
     resolver: zodResolver(schema),
   });
-
   const onSubmit: SubmitHandler<SignUpData> = (data) => {
     console.log(data);
   };
   return (
     <ThemedSafeAreaView className="flex flex-1 justify-between">
       <View className="pt-4 px-4">
-        <View className="items-center mb-4">
+        {/*<View className="items-center mb-4">
           <View className="w-24 h-24 bg-black rounded-lg" />
-        </View>
+        </View>*/}
         <ThemedText
           className="text-2xl text-primary-500"
           style={{ fontFamily: 'QuicksandBold' }}
@@ -55,47 +54,35 @@ export default function SignUp() {
           placeholder="Nombre"
           iconName="id-card-outline"
           control={control}
+          error={errors.name?.message}
         />
-        {errors.name && (
-          <Text className="text-red-500 mt-1" style={{ fontFamily: 'Inter' }}>
-            {errors.name.message}
-          </Text>
-        )}
+
         <TextField
           name="username"
           placeholder="Usuario"
           iconName="person-outline"
           control={control}
+          error={errors.username?.message}
         />
-        {errors.username && (
-          <Text className="text-red-500 mt-1" style={{ fontFamily: 'Inter' }}>
-            {errors.username.message}
-          </Text>
-        )}
+
         <TextField
           name="email"
           placeholder="Correo"
           iconName="mail-outline"
           control={control}
+          error={errors.email?.message}
         />
-        {errors.email && (
-          <Text className="text-red-500 mt-1" style={{ fontFamily: 'Inter' }}>
-            {errors.email.message}
-          </Text>
-        )}
+
         <TextField
           name="password"
           placeholder="Contraseña"
           iconName="key-outline"
           secureTextEntry={!showPassword}
           control={control}
+          error={errors.password?.message}
           onIconPress={() => setShowPassword(!showPassword)}
         />
-        {errors.password && (
-          <Text className="text-red-500 mt-1" style={{ fontFamily: 'Inter' }}>
-            {errors.password.message}
-          </Text>
-        )}
+
         <TextField
           name="confirmPassword"
           placeholder="Confirmar contraseña"
