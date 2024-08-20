@@ -5,15 +5,20 @@ import { ThemedSafeAreaView } from '@/components/common/ThemedSafeAreaView';
 import { ThemedText } from '../components/common/ThemedText';
 import TextField from '@/components/common/TextField';
 import Button from '@/components/common/Button';
-import { useForm } from 'react-hook-form';
-import { AuthAPI } from '@/api/auth.api';
+import { SubmitHandler, useForm } from 'react-hook-form';
+//import { AuthAPI } from '@/api/auth.api';
 import { SignUpData } from '@/types/auth';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { control, handleSubmit } = useForm<SignUpData>();
-  const onSubmit = (data: SignUpData) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpData>();
+
+  const onSubmit: SubmitHandler<SignUpData> = (data) => {
     console.log(data);
   };
   return (
