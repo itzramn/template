@@ -7,6 +7,7 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 import { ThemedView } from '@/components/common/ThemedView';
 import TextField from '@/components/common/TextField';
 import Button from '@/components/common/Button';
+import { useForm } from 'react-hook-form';
 
 function Header() {
   const headerTextColor = useThemeColor(
@@ -67,6 +68,7 @@ function ExternalLogin() {
 
 export default function SignIn() {
   const { signIn } = useSession();
+  const { control } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const headerBackgroundColor = useThemeColor(
     {
@@ -89,12 +91,14 @@ export default function SignIn() {
               id="email"
               placeholder="Correo"
               iconName="mail-outline"
+              control={control}
             />
             <TextField
               id="password"
               placeholder="Contraseña"
               iconName="key-outline"
               secureTextEntry={!showPassword}
+              control={control}
               onIconPress={() => setShowPassword(!showPassword)}
             />
             <Link href="/recover-password" className="mb-4">

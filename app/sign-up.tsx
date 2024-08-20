@@ -5,11 +5,17 @@ import { ThemedSafeAreaView } from '@/components/common/ThemedSafeAreaView';
 import { ThemedText } from '../components/common/ThemedText';
 import TextField from '@/components/common/TextField';
 import Button from '@/components/common/Button';
+import { useForm } from 'react-hook-form';
+import { AuthAPI } from '@/api/auth.api';
+import { SignUpData } from '@/types/auth';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const { control, handleSubmit } = useForm<SignUpData>();
+  const onSubmit = (data: SignUpData) => {
+    console.log(data);
+  };
   return (
     <ThemedSafeAreaView className="flex flex-1 justify-between">
       <View className="pt-4 px-4">
@@ -28,26 +34,43 @@ export default function SignUp() {
         >
           Ingresa los datos que utilizarás para acceder a tu cuenta.
         </Text>
-        <TextField id="name" placeholder="Nombre" iconName="person-outline" />
-        <TextField id="email" placeholder="Correo" iconName="mail-outline" />
-        <TextField id="phone" placeholder="Teléfono" iconName="call-outline" />
         <TextField
-          id="password"
+          name="name"
+          placeholder="Nombre"
+          iconName="person-outline"
+          control={control}
+        />
+        <TextField
+          name="email"
+          placeholder="Correo"
+          iconName="mail-outline"
+          control={control}
+        />
+        <TextField
+          name="phone"
+          placeholder="Teléfono"
+          iconName="call-outline"
+          control={control}
+        />
+        <TextField
+          name="password"
           placeholder="Contraseña"
           iconName="key-outline"
           secureTextEntry={!showPassword}
+          control={control}
           onIconPress={() => setShowPassword(!showPassword)}
         />
         <TextField
-          id="confirmPassword"
+          name="confirmPassword"
           placeholder="Confirmar contraseña"
           iconName="key-outline"
           secureTextEntry={!showConfirmPassword}
+          control={control}
           onIconPress={() => setShowConfirmPassword(!showConfirmPassword)}
         />
       </View>
       <View className="px-4 pb-2">
-        <Button txtClassName="mb-4" onPress={() => router.replace('/sign-in')}>
+        <Button txtClassName="mb-4" onPress={handleSubmit(onSubmit)}>
           Continuar
         </Button>
         <Pressable
