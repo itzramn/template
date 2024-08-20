@@ -8,6 +8,15 @@ import Button from '@/components/common/Button';
 import { SubmitHandler, useForm } from 'react-hook-form';
 //import { AuthAPI } from '@/api/auth.api';
 import { SignUpData } from '@/types/auth';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const schema = z.object({
+  name: z.string().max(50),
+  username: z.string().min(5).max(20),
+  email: z.string().email(),
+  password: z.string().min(8),
+});
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,8 +24,10 @@ export default function SignUp() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
-  } = useForm<SignUpData>();
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpData>({
+    resolver: zodResolver(schema),
+  });
 
   const onSubmit: SubmitHandler<SignUpData> = (data) => {
     console.log(data);
@@ -42,21 +53,36 @@ export default function SignUp() {
         <TextField
           name="name"
           placeholder="Nombre"
+          iconName="id-card-outline"
+          control={control}
+        />
+        {errors.name && (
+          <Text className="text-red-500 mt-1" style={{ fontFamily: 'Inter' }}>
+            {errors.name.message}
+          </Text>
+        )}
+        <TextField
+          name="username"
+          placeholder="Usuario"
           iconName="person-outline"
           control={control}
         />
+        {errors.username && (
+          <Text className="text-red-500 mt-1" style={{ fontFamily: 'Inter' }}>
+            {errors.username.message}
+          </Text>
+        )}
         <TextField
           name="email"
           placeholder="Correo"
           iconName="mail-outline"
           control={control}
         />
-        <TextField
-          name="phone"
-          placeholder="Teléfono"
-          iconName="call-outline"
-          control={control}
-        />
+        {errors.email && (
+          <Text className="text-red-500 mt-1" style={{ fontFamily: 'Inter' }}>
+            {errors.email.message}
+          </Text>
+        )}
         <TextField
           name="password"
           placeholder="Contraseña"
@@ -65,6 +91,11 @@ export default function SignUp() {
           control={control}
           onIconPress={() => setShowPassword(!showPassword)}
         />
+        {errors.password && (
+          <Text className="text-red-500 mt-1" style={{ fontFamily: 'Inter' }}>
+            {errors.password.message}
+          </Text>
+        )}
         <TextField
           name="confirmPassword"
           placeholder="Confirmar contraseña"
@@ -75,7 +106,11 @@ export default function SignUp() {
         />
       </View>
       <View className="px-4 pb-2">
-        <Button txtClassName="mb-4" onPress={handleSubmit(onSubmit)}>
+        <Button
+          txtClassName="mb-4"
+          onPress={handleSubmit(onSubmit)}
+          disabled={isSubmitting}
+        >
           Continuar
         </Button>
         <Pressable
