@@ -9,6 +9,7 @@ export const handleAPIResponse = (response: AxiosResponse<any, any>) => {
       success: true,
     };
   }
+  console.error('Response error', response);
   return {
     message: response.data.message,
     success: false,
@@ -17,16 +18,19 @@ export const handleAPIResponse = (response: AxiosResponse<any, any>) => {
 
 export const handleAPIError = (error: unknown) => {
   if (error instanceof Error) {
+    console.error('Error', error);
     return {
       message: '',
       success: false,
     };
   } else if (error instanceof AxiosError) {
+    console.error('AxiosError', error);
     return {
       message: error.response?.data.message || DEFAULT_MESSAGE,
       success: false,
     };
   }
+  console.error('Unknown error', error);
   return {
     message: DEFAULT_MESSAGE,
     success: false,
