@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ThemedSafeAreaView } from '@/components/common/ThemedSafeAreaView';
@@ -28,6 +28,7 @@ const schema = z
 type FormFields = z.infer<typeof schema>;
 
 export default function SignUp() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const {
@@ -43,7 +44,14 @@ export default function SignUp() {
       ...data,
       role: 'admin',
     });
-    if (!result.success) setError('root', { message: result.message });
+    if (!result.success) {
+      setError('root', { message: result.message });
+      return;
+    }
+    router.replace({
+      pathname: '/sign-in',
+      params: { registered: 'true' },
+    });
   };
   return (
     <ThemedSafeAreaView className="flex flex-1 justify-between">

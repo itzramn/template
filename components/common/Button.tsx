@@ -17,6 +17,7 @@ type ButtonProps = PressableProps & {
   size?: 'sm' | 'md' | 'lg';
   variant?: 'solid' | 'light';
   txtClassName?: string;
+  isLoading?: boolean;
 };
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -28,6 +29,7 @@ export default function Button({
   size = 'md',
   variant = 'solid',
   txtClassName = '',
+  isLoading = false,
   ...rest
 }: ButtonProps) {
   const solidAnimation = useSolidBackgroundAnimation(color);
