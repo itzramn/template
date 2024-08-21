@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { router } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ThemedSafeAreaView } from '@/components/common/ThemedSafeAreaView';
@@ -28,6 +28,7 @@ const schema = z
 type FormFields = z.infer<typeof schema>;
 
 export default function SignUp() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const {
@@ -43,7 +44,14 @@ export default function SignUp() {
       ...data,
       role: 'admin',
     });
-    if (!result.success) setError('root', { message: result.message });
+    if (!result.success) {
+      setError('root', { message: result.message });
+      return;
+    }
+    router.replace({
+      pathname: '/sign-in',
+      params: { registered: 'true' },
+    });
   };
   return (
     <ThemedSafeAreaView className="flex flex-1 justify-between">
@@ -119,17 +127,14 @@ export default function SignUp() {
             {errors.root.message}
           </Text>
         )}
-        <Pressable
-          className="p-4 rounded-full w-full items-center my-4 bg-zinc-300"
+        <Button
+          color="black"
+          variant="light"
+          txtClassName="my-4"
           onPress={() => router.replace('/sign-in')}
         >
-          <Text
-            className="text-black font-semibold"
-            style={{ fontFamily: 'Nunito' }}
-          >
-            Regresar
-          </Text>
-        </Pressable>
+          Regresar
+        </Button>
       </View>
     </ThemedSafeAreaView>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Pressable, Text, View, Image } from 'react-native';
-import { Link, router } from 'expo-router';
+import { Text, View } from 'react-native';
+import { Link, router, useLocalSearchParams } from 'expo-router';
 import { useSession } from '../context/ctx';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { ThemedView } from '@/components/common/ThemedView';
@@ -20,6 +20,9 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>;
 
 export default function SignIn() {
+  const { registered } = useLocalSearchParams<{
+    registered?: 'true';
+  }>();
   const { signIn } = useSession();
   const {
     control,
@@ -46,6 +49,11 @@ export default function SignIn() {
         <Header />
         <ThemedView txtClassName="flex-1 justify-between p-4 rounded-t-3xl h-2/3">
           <View>
+            {registered === 'true' && (
+              <Text className="text-success-600 text-center mb-1">
+                ¡Usuario registrado correctamente!
+              </Text>
+            )}
             <TextField
               name="username"
               placeholder="Usuario"
@@ -74,17 +82,13 @@ export default function SignIn() {
             >
               Ingresar
             </Button>
-            <Pressable
-              className="p-4 rounded-full w-full items-center bg-zinc-300"
-              onPress={() => router.replace('/sign-up')}
+            <Button
+              color="black"
+              variant="light"
+              onPress={() => router.navigate('/sign-up')}
             >
-              <Text
-                className="text-black font-semibold"
-                style={{ fontFamily: 'Nunito' }}
-              >
-                Regístrate
-              </Text>
-            </Pressable>
+              Regístrate
+            </Button>
           </View>
           <ExternalLogin />
         </ThemedView>
