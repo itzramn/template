@@ -20,8 +20,9 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>;
 
 export default function SignIn() {
-  const { registered } = useLocalSearchParams<{
+  const { registered, reset } = useLocalSearchParams<{
     registered?: 'true';
+    reset?: 'true';
   }>();
   const { signIn } = useSession();
   const {
@@ -52,6 +53,11 @@ export default function SignIn() {
             {registered === 'true' && (
               <Text className="text-success-600 text-center mb-1">
                 ¡Usuario registrado correctamente!
+              </Text>
+            )}
+            {reset === 'true' && (
+              <Text className="text-success-600 text-center mb-1">
+                ¡Contraseña restablecida correctamente!
               </Text>
             )}
             <TextField

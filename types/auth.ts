@@ -10,3 +10,10 @@ export type SignUpData = {
   email: string;
   role: 'admin' | 'customer' | 'employer';
 };
+
+export type ResetPasswordData = {
+  password: string;
+  confirmPassword: string;
+  otp: string;
+  username: string;
+};

@@ -1,5 +1,5 @@
 import { BaseAPI } from './base.api';
-import { SignInData, SignUpData } from '../types/auth';
+import { ResetPasswordData, SignInData, SignUpData } from '../types/auth';
 import { APIResponse } from '@/types/api';
 import { handleAPIError, handleAPIResponse } from '@/utils/api.utils';
 
@@ -27,6 +27,31 @@ export class AuthAPI extends BaseAPI {
       const response = await this.api.post('/auth/forgot-password', {
         username,
       });
+      return handleAPIResponse(response);
+    } catch (error) {
+      return handleAPIError(error);
+    }
+  }
+
+  public async verifyPassword(
+    username: string,
+    otp: string
+  ): Promise<APIResponse> {
+    try {
+      console.log(this.api);
+      const response = await this.api.post('/auth/forgot-password/verify', {
+        username,
+        otp,
+      });
+      return handleAPIResponse(response);
+    } catch (error) {
+      return handleAPIError(error);
+    }
+  }
+
+  public async resetPassword(data: ResetPasswordData): Promise<APIResponse> {
+    try {
+      const response = await this.api.post('/auth/forgot-password/reset', data);
       return handleAPIResponse(response);
     } catch (error) {
       return handleAPIError(error);

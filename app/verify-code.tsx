@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import {
   Text,
   TextInput,
@@ -12,9 +12,17 @@ import { ThemedSafeAreaView } from '@/components/common/ThemedSafeAreaView';
 import { ThemedText } from '@/components/common/ThemedText';
 import Button from '@/components/common/Button';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { AuthAPI } from '@/api/auth.api';
+import ErrorText from '@/components/common/ErrorText';
+
+const authAPI = new AuthAPI();
 
 export default function VerifyCode() {
-  const [code, setCode] = useState<string[]>(['', '', '', '', '']);
+  const { username } = useLocalSearchParams<{ username?: string }>();
+
+  const [code, setCode] = useState(['', '', '', '', '']);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   const refs = useRef<(TextInputType | null)[]>([]);
   const textColor = useThemeColor({}, 'text');
 
@@ -38,6 +46,25 @@ export default function VerifyCode() {
     }
   };
 
+  const handleVerifyCode = async (username: string) => {
+    const codeValue = code.join('');
+    setLoading(true);
+    const result = await authAPI.verifyPassword(username, codeValue);
+    setLoading(false);
+    if (!result.success) {
+      setError(result.message);
+      return;
+    }
+    router.replace({
+      pathname: '/reset-password',
+      params: { username, otp: codeValue },
+    });
+  };
+
+  if (!username) {
+    router.replace('/recover-password');
+    return null;
+  }
   return (
     <ThemedSafeAreaView className="flex flex-1 justify-between">
       <View className="pt-4 px-4">
@@ -66,7 +93,7 @@ export default function VerifyCode() {
               onKeyPress={(
                 e: NativeSyntheticEvent<TextInputKeyPressEventData>
               ) => handleBackspace(e.nativeEvent.key, index)}
-              keyboardType="numeric"
+              //keyboardType="numeric"
               maxLength={1}
               style={{
                 borderWidth: 1,
@@ -83,15 +110,22 @@ export default function VerifyCode() {
         </View>
       </View>
       <View className="px-4 pb-2">
+        {error && <ErrorText txtClassName="mb-1" error={error} />}
         <Button
           txtClassName="mb-4"
           onPress={() => {
-            //const codeValue = code.join('');
-            // Aquí puedes manejar la verificación del código
-            router.replace('/reset-password');
+            handleVerifyCode(username);
           }}
+          isLoading={loading}
         >
           Siguiente
+        </Button>
+        <Button
+          color="black"
+          variant="light"
+          onPress={() => router.replace('/recover-password')}
+        >
+          Regresar
         </Button>
       </View>
     </ThemedSafeAreaView>

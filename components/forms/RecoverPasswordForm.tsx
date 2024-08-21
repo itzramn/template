@@ -46,7 +46,8 @@ export default function RecoverPasswordForm({ authAPI }: { authAPI: AuthAPI }) {
           className="text-lg mb-4 text-gray-400"
           style={{ fontFamily: 'Nunito' }}
         >
-          Ingresa tu correo electrónico para recibir un código de verificación.
+          Ingresa tu usuario para recibir un código de verificación al correo
+          registrado.
         </Text>
         <TextField
           name="username"
