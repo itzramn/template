@@ -1,6 +1,6 @@
 import { Colors } from '@/constants/Colors';
 import { hexToRGBA } from '@/utils/utils';
-import { Pressable, PressableProps, Text } from 'react-native';
+import { Pressable, PressableProps, Text, StyleSheet } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -27,50 +27,32 @@ export default function Button({
   color = 'primary',
   size = 'md',
   variant = 'solid',
-  txtClassName,
+  txtClassName = '',
   ...rest
 }: ButtonProps) {
-  const baseStyle = 'w-full items-center';
-  const baseTextStyle = 'font-semibold';
-
-  const roundedStyle = {
-    sm: 'rounded-sm',
-    md: 'rounded-md',
-    lg: 'rounded-lg',
-    xl: 'rounded-xl',
-    '2xl': 'rounded-2xl',
-    full: 'rounded-full',
-  }[rounded];
-  const sizeStyle = {
-    sm: 'p-2',
-    md: 'p-4',
-    lg: 'p-6',
-  }[size];
-
-  const textVariantStyle = {
-    solid: `text-white`,
-    outline: `text-${color}-500`,
-    light: `text-${color}-900`,
-    shadow: `text-white`,
-  }[variant];
-
   const solidAnimation = useSolidBackgroundAnimation(color);
   const lightAnimation = useLightBackgroundAnimation(color);
 
   const { handlePressIn, handlePressOut, animatedStyle } =
     variant === 'solid' ? solidAnimation : lightAnimation;
 
+  const borderRadiusStyle = getBorderRadiusStyle(rounded);
+  const paddingStyle = getPaddingStyle(size);
   return (
     <AnimatedPressable
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      className={`${baseStyle} ${roundedStyle} ${sizeStyle} ${txtClassName}`}
-      style={animatedStyle}
+      className={txtClassName}
+      style={[styles.base, borderRadiusStyle, paddingStyle, animatedStyle]}
       {...rest}
     >
       <Text
-        className={`${baseTextStyle} ${textVariantStyle}`}
-        style={{ fontFamily: 'Nunito' }}
+        style={[
+          styles.text,
+          variant === 'solid' && styles.solidText,
+          variant === 'light' && { color: Colors[color][900] },
+          { fontFamily: 'Nunito' },
+        ]}
       >
         {children}
       </Text>
@@ -132,7 +114,7 @@ function useLightBackgroundAnimation(color: ColorNames) {
     const backgroundColor = interpolateColor(
       animatedColor.value,
       [0, 1],
-      [rgbaString, Colors[color][600]]
+      [rgbaString, Colors[color][500]]
     );
 
     return {
@@ -142,3 +124,51 @@ function useLightBackgroundAnimation(color: ColorNames) {
 
   return { handlePressIn, handlePressOut, animatedStyle };
 }
+
+function getBorderRadiusStyle(
+  rounded: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full'
+) {
+  switch (rounded) {
+    case 'sm':
+      return { borderRadius: 2 };
+    case 'md':
+      return { borderRadius: 6 };
+    case 'lg':
+      return { borderRadius: 8 };
+    case 'xl':
+      return { borderRadius: 12 };
+    case '2xl':
+      return { borderRadius: 16 };
+    case 'full':
+      return { borderRadius: 9999 };
+    default:
+      return {};
+  }
+}
+
+function getPaddingStyle(size: 'sm' | 'md' | 'lg') {
+  switch (size) {
+    case 'sm':
+      return { padding: 8 };
+    case 'md':
+      return { padding: 16 };
+    case 'lg':
+      return { padding: 24 };
+    default:
+      return {};
+  }
+}
+
+const styles = StyleSheet.create({
+  base: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  text: {
+    fontWeight: '600',
+    color: '#fff', // Default color for solid variant
+  },
+  solidText: {
+    color: '#fff',
+  },
+});

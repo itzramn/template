@@ -111,7 +111,7 @@ export default function SignIn() {
             </Button>
             <Pressable
               className="p-4 rounded-full w-full items-center bg-zinc-300"
-              onPress={() => router.replace('/sign-up')}
+              onPress={() => router.navigate('/sign-up')}
             >
               <Text
                 className="text-black font-semibold"

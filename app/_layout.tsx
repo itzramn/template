@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import { Slot } from 'expo-router';
+import { Slot, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
@@ -42,7 +42,10 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <SessionProvider>
-        <Slot />
+        <Stack screenOptions={{}}>
+          <Stack.Screen name="sign-in" />
+          <Stack.Screen name="sign-up" />
+        </Stack>
       </SessionProvider>
     </ThemeProvider>
   );

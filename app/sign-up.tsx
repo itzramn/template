@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { router } from 'expo-router';
 import { z } from 'zod';
@@ -119,17 +119,14 @@ export default function SignUp() {
             {errors.root.message}
           </Text>
         )}
-        <Pressable
-          className="p-4 rounded-full w-full items-center my-4 bg-zinc-300"
+        <Button
+          color="black"
+          variant="light"
+          txtClassName="my-4"
           onPress={() => router.replace('/sign-in')}
         >
-          <Text
-            className="text-black font-semibold"
-            style={{ fontFamily: 'Nunito' }}
-          >
-            Regresar
-          </Text>
-        </Pressable>
+          Regresar
+        </Button>
       </View>
     </ThemedSafeAreaView>
   );
