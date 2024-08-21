@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { router } from 'expo-router';
 import TextField from '../common/TextField';
 import { Control, FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 import { FormFields, schema } from '@/schemas/signIn';
-import { useRouter } from 'expo-router';
 import { View, Text } from 'react-native';
 import ErrorText from '../common/ErrorText';
 import { ThemedText } from '../common/ThemedText';
@@ -10,10 +10,7 @@ import Button from '../common/Button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AuthAPI } from '@/api/auth.api';
 
-const authAPI = new AuthAPI();
-
-export default function SignUpForm() {
-  const router = useRouter();
+export default function SignUpForm({ authAPI }: { authAPI: AuthAPI }) {
   const {
     control,
     handleSubmit,
@@ -57,11 +54,7 @@ export default function SignUpForm() {
         {errors.root?.message && (
           <ErrorText txtClassName="mb-1" error={errors.root.message} />
         )}
-        <Button
-          onPress={handleSubmit(onSubmit)}
-          isLoading={isSubmitting}
-          disabled={isSubmitting}
-        >
+        <Button onPress={handleSubmit(onSubmit)} isLoading={isSubmitting}>
           Continuar
         </Button>
 

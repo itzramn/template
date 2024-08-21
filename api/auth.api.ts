@@ -21,4 +21,15 @@ export class AuthAPI extends BaseAPI {
       return handleAPIError(error);
     }
   }
+
+  public async forgotPassword(username: string): Promise<APIResponse> {
+    try {
+      const response = await this.api.post('/auth/forgot-password', {
+        username,
+      });
+      return handleAPIResponse(response);
+    } catch (error) {
+      return handleAPIError(error);
+    }
+  }
 }

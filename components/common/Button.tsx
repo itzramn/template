@@ -51,6 +51,7 @@ export default function Button({
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       className={txtClassName}
+      disabled={isLoading}
       style={[styles.base, borderRadiusStyle, paddingStyle, animatedStyle]}
       {...rest}
     >

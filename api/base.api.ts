@@ -2,7 +2,7 @@ import { API } from '@/utils/utils';
 import { AxiosInstance } from 'axios';
 
 export class BaseAPI {
-  api: AxiosInstance;
+  protected api: AxiosInstance;
 
   constructor(token?: string) {
     this.api = this.configureAPI(token);
