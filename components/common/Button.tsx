@@ -1,6 +1,12 @@
 import { Colors } from '@/constants/Colors';
 import { hexToRGBA } from '@/utils/utils';
-import { Pressable, PressableProps, Text, StyleSheet } from 'react-native';
+import {
+  Pressable,
+  PressableProps,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -48,16 +54,23 @@ export default function Button({
       style={[styles.base, borderRadiusStyle, paddingStyle, animatedStyle]}
       {...rest}
     >
-      <Text
-        style={[
-          styles.text,
-          variant === 'solid' && styles.solidText,
-          variant === 'light' && { color: Colors[color][900] },
-          { fontFamily: 'Nunito' },
-        ]}
-      >
-        {children}
-      </Text>
+      {isLoading ? (
+        <ActivityIndicator
+          size="small"
+          color={variant === 'solid' ? '#fff' : Colors[color][900]}
+        />
+      ) : (
+        <Text
+          style={[
+            styles.text,
+            variant === 'solid' && styles.solidText,
+            variant === 'light' && { color: Colors[color][900] },
+            { fontFamily: 'Nunito' },
+          ]}
+        >
+          {children}
+        </Text>
+      )}
     </AnimatedPressable>
   );
 }
