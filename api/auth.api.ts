@@ -1,11 +1,16 @@
 import { BaseAPI } from './base.api';
-import { SignUpData } from '../types/auth';
+import { SignInData, SignUpData } from '../types/auth';
 import { APIResponse } from '@/types/api';
 import { handleAPIError, handleAPIResponse } from '@/utils/api.utils';
 
 export class AuthAPI extends BaseAPI {
-  public async login(email: string, password: string) {
-    return this.api.post('/auth/login', { email, password });
+  public async login(credentials: SignInData): Promise<APIResponse> {
+    try {
+      const response = await this.api.post('/auth/sign-in', credentials);
+      return handleAPIResponse(response);
+    } catch (error) {
+      return handleAPIError(error);
+    }
   }
 
   public async signUp(data: SignUpData): Promise<APIResponse> {
