@@ -51,7 +51,8 @@ export default function TabLayout() {
               }}
             >
               <TabBarIcon
-                name={focused ? 'home' : 'home-outline'}
+                name="home"
+                //name={focused ? 'home' : 'home-outline'}
                 color={color}
               />
             </View>
@@ -72,7 +73,8 @@ export default function TabLayout() {
               }}
             >
               <TabBarIcon
-                name={focused ? 'code-slash' : 'code-slash-outline'}
+                name="code"
+                //name={focused ? 'code-slash' : 'code-slash-outline'}
                 color={color}
               />
             </View>
@@ -93,7 +95,8 @@ export default function TabLayout() {
               }}
             >
               <TabBarIcon
-                name={focused ? 'person' : 'person-outline'}
+                name="user"
+                //name={focused ? 'person' : 'person-outline'}
                 color={color}
               />
             </View>
