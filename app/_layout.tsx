@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 import { SessionProvider } from '@/context/ctx';
 import { ThemeProvider } from '@/context/ThemeContext';
@@ -44,14 +45,16 @@ export default function RootLayout() {
     <ThemeProvider>
       <SessionProvider>
         <SafeAreaProvider>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="sign-in" />
-            <Stack.Screen name="sign-up" />
-          </Stack>
+          <RootSiblingParent>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name="sign-in" />
+              <Stack.Screen name="sign-up" />
+            </Stack>
+          </RootSiblingParent>
         </SafeAreaProvider>
       </SessionProvider>
     </ThemeProvider>

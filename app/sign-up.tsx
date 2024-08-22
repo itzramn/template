@@ -6,7 +6,7 @@ export default function SignUp() {
   const authAPI = new AuthAPI();
   return (
     <ThemedSafeAreaView className="flex flex-1">
-      <Form authAPI={authAPI} />
+      <Form api={authAPI} />
     </ThemedSafeAreaView>
   );
 }

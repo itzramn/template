@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AuthAPI } from '@/api/auth.api';
 import ErrorText from '../common/ErrorText';
 
-export default function RecoverPasswordForm({ authAPI }: { authAPI: AuthAPI }) {
+export default function RecoverPasswordForm({ api }: { api: AuthAPI }) {
   const {
     control,
     handleSubmit,
@@ -19,7 +19,7 @@ export default function RecoverPasswordForm({ authAPI }: { authAPI: AuthAPI }) {
     resolver: zodResolver(schema),
   });
   const onSubmit = async (data: FormFields) => {
-    const result = await authAPI.forgotPassword(data.username);
+    const result = await api.forgotPassword(data.username);
     if (!result.success) {
       setError('root', { message: result.message });
       return;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, Text } from 'react-native';
-import { useForm } from 'react-hook-form';
+import { Control, FieldErrors, useForm } from 'react-hook-form';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ThemedText } from '../common/ThemedText';
 import TextField from '../common/TextField';
@@ -10,13 +10,11 @@ import { AuthAPI } from '@/api/auth.api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ErrorText from '../common/ErrorText';
 
-export default function ResetPasswordForm({ authAPI }: { authAPI: AuthAPI }) {
+export default function ResetPasswordForm({ api }: { api: AuthAPI }) {
   const { username, otp } = useLocalSearchParams<{
     username?: string;
     otp?: string;
   }>();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     control,
@@ -28,7 +26,7 @@ export default function ResetPasswordForm({ authAPI }: { authAPI: AuthAPI }) {
   });
 
   const onSubmit = async (data: FormFields, username: string, otp: string) => {
-    const result = await authAPI.resetPassword({
+    const result = await api.resetPassword({
       ...data,
       password: data.newPassword,
       username,
@@ -67,24 +65,7 @@ export default function ResetPasswordForm({ authAPI }: { authAPI: AuthAPI }) {
         >
           Ingresa tu nueva contraseña.
         </Text>
-        <TextField
-          name="newPassword"
-          placeholder="Nueva Contraseña"
-          iconName="key-outline"
-          secureTextEntry={!showPassword}
-          control={control}
-          error={errors.newPassword?.message}
-          onIconPress={() => setShowPassword(!showPassword)}
-        />
-        <TextField
-          name="confirmPassword"
-          placeholder="Confirmar nueva contraseña"
-          iconName="key-outline"
-          secureTextEntry={!showConfirmPassword}
-          control={control}
-          error={errors.confirmPassword?.message}
-          onIconPress={() => setShowConfirmPassword(!showConfirmPassword)}
-        />
+        <Fields control={control} errors={errors} />
       </View>
       <View className="px-4 pb-2">
         {errors.root?.message && (
@@ -106,5 +87,41 @@ export default function ResetPasswordForm({ authAPI }: { authAPI: AuthAPI }) {
         </Button>
       </View>
     </View>
+  );
+}
+
+type Errors = FieldErrors<FormFields>;
+type InputControl = Control<FormFields, any>;
+type FieldsProps = {
+  control: InputControl;
+  errors: Errors;
+};
+
+function Fields({ control, errors }: FieldsProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  return (
+    <>
+      <TextField
+        name="newPassword"
+        placeholder="Nueva Contraseña"
+        iconName="key-outline"
+        secureTextEntry={!showPassword}
+        control={control}
+        error={errors.newPassword?.message}
+        onIconPress={() => setShowPassword(!showPassword)}
+      />
+      <TextField
+        name="confirmPassword"
+        placeholder="Confirmar nueva contraseña"
+        iconName="key-outline"
+        secureTextEntry={!showConfirmPassword}
+        control={control}
+        error={errors.confirmPassword?.message}
+        onIconPress={() => setShowConfirmPassword(!showConfirmPassword)}
+      />
+      z
+    </>
   );
 }

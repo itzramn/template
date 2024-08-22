@@ -2,9 +2,15 @@ import { BaseAPI } from './base.api';
 import { ResetPasswordData, SignInData, SignUpData } from '../types/auth';
 import { APIResponse } from '@/types/api';
 import { handleAPIError, handleAPIResponse } from '@/utils/api.utils';
+import { FormFields as ChangePasswordData } from '@/schemas/changePassword';
 
 export class AuthAPI extends BaseAPI {
-  public async login(credentials: SignInData): Promise<APIResponse> {
+  /**
+   * Logs in the user using username and password.
+   * @param credentials
+   * @returns
+   */
+  async login(credentials: SignInData): Promise<APIResponse> {
     try {
       const response = await this.api.post('/auth/sign-in', credentials);
       return handleAPIResponse(response);
@@ -13,7 +19,12 @@ export class AuthAPI extends BaseAPI {
     }
   }
 
-  public async signUp(data: SignUpData): Promise<APIResponse> {
+  /**
+   * Signs up the user.
+   * @param data
+   * @returns
+   */
+  async signUp(data: SignUpData): Promise<APIResponse> {
     try {
       const response = await this.api.post('/auth/sign-up', data);
       return handleAPIResponse(response);
@@ -22,7 +33,12 @@ export class AuthAPI extends BaseAPI {
     }
   }
 
-  public async forgotPassword(username: string): Promise<APIResponse> {
+  /**
+   * Sends an email with a code to reset the password.
+   * @param username
+   * @returns
+   */
+  async forgotPassword(username: string): Promise<APIResponse> {
     try {
       const response = await this.api.post('/auth/forgot-password', {
         username,
@@ -33,10 +49,13 @@ export class AuthAPI extends BaseAPI {
     }
   }
 
-  public async verifyPassword(
-    username: string,
-    otp: string
-  ): Promise<APIResponse> {
+  /**
+   * Verifies the password reset code.
+   * @param username
+   * @param otp
+   * @returns
+   */
+  async verifyPassword(username: string, otp: string): Promise<APIResponse> {
     try {
       console.log(this.api);
       const response = await this.api.post('/auth/forgot-password/verify', {
@@ -49,9 +68,31 @@ export class AuthAPI extends BaseAPI {
     }
   }
 
-  public async resetPassword(data: ResetPasswordData): Promise<APIResponse> {
+  /**
+   * Resets the password. This is the final step in the password reset process.
+   * @param data
+   * @returns
+   */
+  async resetPassword(data: ResetPasswordData): Promise<APIResponse> {
     try {
       const response = await this.api.post('/auth/forgot-password/reset', data);
+      return handleAPIResponse(response);
+    } catch (error) {
+      return handleAPIError(error);
+    }
+  }
+
+  /**
+   * Use this method to change the password of the user after they have logged in.
+   * @param data
+   * @returns
+   */
+  async changePassword(data: ChangePasswordData) {
+    try {
+      const response = await this.api.post('/auth/change-password', {
+        ...data,
+        password: data.newPassword,
+      });
       return handleAPIResponse(response);
     } catch (error) {
       return handleAPIError(error);

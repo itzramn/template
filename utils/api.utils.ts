@@ -20,7 +20,7 @@ export const handleAPIError = (error: unknown) => {
   if (error instanceof Error) {
     console.error('Error', error);
     return {
-      message: '',
+      message: error.message,
       success: false,
     };
   } else if (error instanceof AxiosError) {

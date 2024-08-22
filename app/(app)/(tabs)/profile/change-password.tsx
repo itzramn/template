@@ -1,36 +1,15 @@
-import { useState } from 'react';
-import { View } from 'react-native';
-import Button from '@/components/common/Button';
-import TextField from '@/components/common/TextField';
+import { AuthAPI } from '@/api/auth.api';
 import { ThemedView } from '@/components/common/ThemedView';
+import Form from '@/components/forms/ChangePasswordForm';
+import { useSession } from '@/context/ctx';
 
 export default function ChangePassword() {
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
+  const { session } = useSession();
+  const authAPI = new AuthAPI(session);
 
   return (
     <ThemedView className="px-4 py-2 flex flex-1 items-center">
-      <View className="w-full">
-        <TextField
-          placeholder="Contraseña actual"
-          iconName="key-outline"
-          secureTextEntry={!showCurrentPassword}
-          onIconPress={() => setShowCurrentPassword(!showCurrentPassword)}
-        />
-        <TextField
-          placeholder="Nueva contraseña"
-          iconName="lock-closed-outline"
-          secureTextEntry={!showNewPassword}
-          onIconPress={() => setShowNewPassword(!showNewPassword)}
-        />
-        <TextField
-          placeholder="Repetir contraseña"
-          iconName="lock-closed-outline"
-          secureTextEntry={!showNewPassword}
-          onIconPress={() => setShowNewPassword(!showNewPassword)}
-        />
-        <Button color="primary">Guardar</Button>
-      </View>
+      <Form api={authAPI} />
     </ThemedView>
   );
 }

@@ -10,7 +10,7 @@ import Button from '../common/Button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AuthAPI } from '@/api/auth.api';
 
-export default function SignUpForm({ authAPI }: { authAPI: AuthAPI }) {
+export default function SignUpForm({ api }: { api: AuthAPI }) {
   const {
     control,
     handleSubmit,
@@ -20,7 +20,7 @@ export default function SignUpForm({ authAPI }: { authAPI: AuthAPI }) {
     resolver: zodResolver(schema),
   });
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    const result = await authAPI.signUp({
+    const result = await api.signUp({
       ...data,
       role: 'admin',
     });

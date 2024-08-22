@@ -4,11 +4,11 @@ import { AxiosInstance } from 'axios';
 export class BaseAPI {
   protected api: AxiosInstance;
 
-  constructor(token?: string) {
+  constructor(token?: string | null) {
     this.api = this.configureAPI(token);
   }
 
-  private configureAPI(token?: string): AxiosInstance {
+  private configureAPI(token?: string | null): AxiosInstance {
     const api = API;
 
     if (token) {
