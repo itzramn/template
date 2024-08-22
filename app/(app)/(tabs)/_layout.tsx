@@ -6,8 +6,10 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { View } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
   const colorScheme = useColorScheme();
   const tabBackground = useThemeColor(
     {
@@ -25,7 +27,7 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: Colors[colorScheme ?? 'light'].background,
           elevation: 0,
-          height: 60,
+          height: 60 + insets.bottom,
           borderColor: Colors.primary[300],
         },
         tabBarLabelStyle: {

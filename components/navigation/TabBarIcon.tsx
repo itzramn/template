@@ -13,7 +13,7 @@ export function TabBarIcon({
       size={24}
       style={[
         {
-          marginBottom: -3,
+          //marginBottom: -3,
         },
         style,
       ]}

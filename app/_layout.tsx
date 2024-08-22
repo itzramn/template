@@ -6,6 +6,7 @@ import 'react-native-reanimated';
 
 import { SessionProvider } from '@/context/ctx';
 import { ThemeProvider } from '@/context/ThemeContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -42,14 +43,16 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <SessionProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="sign-in" />
-          <Stack.Screen name="sign-up" />
-        </Stack>
+        <SafeAreaProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          >
+            <Stack.Screen name="sign-in" />
+            <Stack.Screen name="sign-up" />
+          </Stack>
+        </SafeAreaProvider>
       </SessionProvider>
     </ThemeProvider>
   );
