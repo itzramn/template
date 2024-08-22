@@ -24,7 +24,7 @@ export default function SignIn() {
     registered?: 'true';
     reset?: 'true';
   }>();
-  const { signIn } = useSession();
+  const { signIn, isBiometricAuth, setIsBiometricAuth } = useSession();
   const {
     control,
     handleSubmit,
@@ -55,39 +55,55 @@ export default function SignIn() {
                 ¡Usuario registrado correctamente!
               </Text>
             )}
-            {reset === 'true' && (
-              <Text className="text-success-600 text-center mb-1">
-                ¡Contraseña restablecida correctamente!
-              </Text>
+            {isBiometricAuth ? (
+              <>
+                <Button
+                  txtClassName="mb-4"
+                  onPress={handleSubmit(signIn)}
+                  disabled={isSubmitting}
+                >
+                  Ingresar con biometría
+                </Button>
+                <Button
+                  variant="light"
+                  txtClassName="mb-4"
+                  onPress={() => setIsBiometricAuth(false)}
+                >
+                  Ingresar con credenciales
+                </Button>
+              </>
+            ) : (
+              <>
+                <TextField
+                  name="username"
+                  placeholder="Usuario"
+                  iconName="person-outline"
+                  control={control}
+                  error={errors.username?.message}
+                />
+                <TextField
+                  name="password"
+                  placeholder="Contraseña"
+                  iconName="key-outline"
+                  secureTextEntry={!showPassword}
+                  control={control}
+                  error={errors.password?.message}
+                  onIconPress={() => setShowPassword(!showPassword)}
+                />
+                <Link href="/recover-password" className="mb-4">
+                  <Text className="text-gray-400 text-right">
+                    ¿Olvidaste tu contraseña?
+                  </Text>
+                </Link>
+                <Button
+                  txtClassName="mb-4"
+                  onPress={handleSubmit(signIn)}
+                  disabled={isSubmitting}
+                >
+                  Ingresar
+                </Button>
+              </>
             )}
-            <TextField
-              name="username"
-              placeholder="Usuario"
-              iconName="person-outline"
-              control={control}
-              error={errors.username?.message}
-            />
-            <TextField
-              name="password"
-              placeholder="Contraseña"
-              iconName="key-outline"
-              secureTextEntry={!showPassword}
-              control={control}
-              error={errors.password?.message}
-              onIconPress={() => setShowPassword(!showPassword)}
-            />
-            <Link href="/recover-password" className="mb-4">
-              <Text className="text-gray-400 text-right">
-                ¿Olvidaste tu contraseña?
-              </Text>
-            </Link>
-            <Button
-              txtClassName="mb-4"
-              onPress={handleSubmit(signIn)}
-              disabled={isSubmitting}
-            >
-              Ingresar
-            </Button>
             <Button
               color="black"
               variant="light"
