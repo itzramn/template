@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { router } from 'expo-router';
 import TextField from '../common/TextField';
 import { Control, FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
-import { FormFields, schema } from '@/schemas/signIn';
+import { FormFields, schema } from '@/schemas/signUp';
 import { View, Text } from 'react-native';
 import ErrorText from '../common/ErrorText';
 import { ThemedText } from '../common/ThemedText';
