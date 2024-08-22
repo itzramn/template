@@ -58,6 +58,8 @@ function User() {
 }
 
 function Preferences() {
+  const { isBiometricAuth, setIsBiometricAuth } = useSession();
+
   return (
     <View>
       <View className="mb-4">

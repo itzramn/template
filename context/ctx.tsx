@@ -1,4 +1,9 @@
-import { useContext, createContext, type PropsWithChildren } from 'react';
+import {
+  useContext,
+  createContext,
+  type PropsWithChildren,
+  useState,
+} from 'react';
 import { useStorageState } from '@/hooks/useStorageState';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { router } from 'expo-router';
@@ -10,11 +15,15 @@ const AuthContext = createContext<{
   signOut: () => void;
   session?: string | null;
   isLoading: boolean;
+  isBiometricAuth: boolean;
+  setIsBiometricAuth: (value: boolean) => void;
 }>({
   signIn: () => null,
   signOut: () => null,
   session: null,
   isLoading: false,
+  isBiometricAuth: false,
+  setIsBiometricAuth: () => null,
 });
 
 // This hook can be used to access the user info.
@@ -31,6 +40,7 @@ export function useSession() {
 
 export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('session');
+  const [isBiometricAuth, setIsBiometricAuth] = useState(true);
 
   const auth = async (credentials: SignInData) => {
     try {
@@ -49,10 +59,18 @@ export function SessionProvider({ children }: PropsWithChildren) {
   };
 
   const biometricAuth = async () => {
-    const result = await LocalAuthentication.authenticateAsync();
-    if (result.success) {
-      setSession('xxx');
-      router.replace('/');
+    console.log('Iniciando autenticación biométrica');
+    try {
+      const result = await LocalAuthentication.authenticateAsync();
+      console.log('Resultado de la autenticación biométrica:', result);
+      if (result.success) {
+        setSession('xxx');
+        router.replace('/');
+      } else {
+        console.log('La autenticación biométrica falló');
+      }
+    } catch (error) {
+      console.log('Error en la autenticación biométrica:', error);
     }
   };
 
@@ -60,20 +78,22 @@ export function SessionProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         signIn: async (credentials: SignInData) => {
-          //Se validara que el usuario tenga activado la opcion de
-          //datos biometricos, si no se le pedira que ingrese sus datos
-          // if (credentials.email === '' || credentials.password === '') {
-          //   biometricAuth();
-          // } else {
-          //   await auth(credentials);
-          // }
-          await auth(credentials);
+          console.log('Iniciando proceso de inicio de sesión');
+          if (isBiometricAuth) {
+            console.log('Intentando autenticación biométrica');
+            await biometricAuth();
+          } else {
+            console.log('Intentando autenticación con credenciales');
+            await auth(credentials);
+          }
         },
         signOut: () => {
           setSession(null);
         },
         session,
         isLoading,
+        isBiometricAuth,
+        setIsBiometricAuth,
       }}
     >
       {children}
