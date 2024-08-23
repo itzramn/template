@@ -1,18 +1,27 @@
 import { useEffect } from 'react';
+import 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { RootSiblingParent } from 'react-native-root-siblings';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import 'react-native-reanimated';
-import { RootSiblingParent } from 'react-native-root-siblings';
-
+import * as Notifications from 'expo-notifications';
 import { SessionProvider } from '@/context/ctx';
 import { ThemeProvider } from '@/context/ThemeContext';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useNotifications } from '@/hooks/useNotifications';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function RootLayout() {
+  useNotifications();
   const [loaded] = useFonts({
     InterLight: require('../assets/fonts/Inter_18pt-Light.ttf'),
     InterMedium: require('../assets/fonts/Inter_18pt-Medium.ttf'),

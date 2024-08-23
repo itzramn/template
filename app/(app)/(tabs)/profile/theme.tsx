@@ -1,4 +1,4 @@
-import { Pressable, Text, useColorScheme, View } from 'react-native';
+import { Pressable, useColorScheme, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useTheme } from '@/context/ThemeContext';
 import { ThemedView } from '@/components/common/ThemedView';
