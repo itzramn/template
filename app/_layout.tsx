@@ -3,12 +3,14 @@ import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, useNavigationContainerRef } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Notifications from 'expo-notifications';
+import * as Sentry from '@sentry/react-native';
 import { SessionProvider } from '@/context/ctx';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { useNotifications } from '@/hooks/useNotifications';
+import { isRunningInExpoGo } from 'expo';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -20,8 +22,25 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export default function RootLayout() {
+const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
+
+Sentry.init({
+  dsn: 'https://ebfa5d3034121d5c5a807e959ddccfd3@o4506101375631360.ingest.us.sentry.io/4507828925562880',
+  debug: true, // If `true`, Sentry will try to print out useful debugging information if something goes wrong with sending the event. Set it to `false` in production
+  integrations: [
+    new Sentry.ReactNativeTracing({
+      // Pass instrumentation to be used as `routingInstrumentation`
+      routingInstrumentation,
+      enableNativeFramesTracking: !isRunningInExpoGo(),
+      // ...
+    }),
+  ],
+});
+
+function RootLayout() {
   useNotifications();
+  const ref = useNavigationContainerRef();
+
   const [loaded] = useFonts({
     InterLight: require('../assets/fonts/Inter_18pt-Light.ttf'),
     InterMedium: require('../assets/fonts/Inter_18pt-Medium.ttf'),
@@ -46,6 +65,12 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
+  useEffect(() => {
+    if (ref) {
+      routingInstrumentation.registerNavigationContainer(ref);
+    }
+  }, [ref]);
+
   if (!loaded) {
     return null;
   }
@@ -69,3 +94,5 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
+
+export default Sentry.wrap(RootLayout);

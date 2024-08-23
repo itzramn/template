@@ -91,11 +91,11 @@ function Preferences() {
             />
           </Pressable>
 
-          <PreferenceItemSwitcher
+          {/*<PreferenceItemSwitcher
             text="Notificaciones"
             value="Activadas"
             icon="notifications-outline"
-          />
+          />*/}
           <PreferenceItemSwitcher
             text="Autenticación biométrica"
             value="Activadas"
