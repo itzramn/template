@@ -44,4 +44,6 @@ ios
 
 expo-env.d.ts
 .env
+firebase-key.json
+google-services.json
 # @end expo-cli
