@@ -4,6 +4,7 @@ import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/common/ThemedView';
 import { ThemedText } from '@/components/common/ThemedText';
+import Button from '@/components/common/Button';
 
 export default function HomeScreen() {
   return (
@@ -50,6 +51,13 @@ export default function HomeScreen() {
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
       </ThemedView>
+      <Button
+        onPress={() => {
+          throw new Error('Here comes an error!');
+        }}
+      >
+        Here comes an error!
+      </Button>
     </ParallaxScrollView>
   );
 }
