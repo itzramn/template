@@ -46,10 +46,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
     try {
       const authAPI = new AuthAPI();
       const result = await authAPI.login(credentials);
-      console.log('result', result);
       if (result.success) {
         if (result.data) {
-          console.log(result.data);
           setSession(result.data);
           router.replace('/');
         }
