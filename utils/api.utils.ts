@@ -5,13 +5,13 @@ const DEFAULT_MESSAGE = 'Ha ocurrido un error inesperado';
 export const handleAPIResponse = (response: AxiosResponse<any, any>) => {
   if (response.data.success) {
     return {
-      message: '',
-      success: true,
+      ...response.data,
     };
   }
   console.error('Response error', response);
   return {
     message: response.data.message,
+    data: response.data.data,
     success: false,
   };
 };

@@ -10,9 +10,10 @@ export class AuthAPI extends BaseAPI {
    * @param credentials
    * @returns
    */
-  async login(credentials: SignInData): Promise<APIResponse> {
+  async login(credentials: SignInData): Promise<APIResponse<string>> {
     try {
       const response = await this.api.post('/auth/sign-in', credentials);
+      console.log('response', response);
       return handleAPIResponse(response);
     } catch (error) {
       return handleAPIError(error);
@@ -24,7 +25,7 @@ export class AuthAPI extends BaseAPI {
    * @param data
    * @returns
    */
-  async signUp(data: SignUpData): Promise<APIResponse> {
+  async signUp(data: SignUpData): Promise<APIResponse<void>> {
     try {
       const response = await this.api.post('/auth/sign-up', data);
       return handleAPIResponse(response);
@@ -38,7 +39,7 @@ export class AuthAPI extends BaseAPI {
    * @param username
    * @returns
    */
-  async forgotPassword(username: string): Promise<APIResponse> {
+  async forgotPassword(username: string): Promise<APIResponse<void>> {
     try {
       const response = await this.api.post('/auth/forgot-password', {
         username,
@@ -55,7 +56,10 @@ export class AuthAPI extends BaseAPI {
    * @param otp
    * @returns
    */
-  async verifyPassword(username: string, otp: string): Promise<APIResponse> {
+  async verifyPassword(
+    username: string,
+    otp: string
+  ): Promise<APIResponse<void>> {
     try {
       console.log(this.api);
       const response = await this.api.post('/auth/forgot-password/verify', {
@@ -73,7 +77,7 @@ export class AuthAPI extends BaseAPI {
    * @param data
    * @returns
    */
-  async resetPassword(data: ResetPasswordData): Promise<APIResponse> {
+  async resetPassword(data: ResetPasswordData): Promise<APIResponse<void>> {
     try {
       const response = await this.api.post('/auth/forgot-password/reset', data);
       return handleAPIResponse(response);

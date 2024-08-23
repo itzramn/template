@@ -46,10 +46,13 @@ export function SessionProvider({ children }: PropsWithChildren) {
     try {
       const authAPI = new AuthAPI();
       const result = await authAPI.login(credentials);
-
+      console.log('result', result);
       if (result.success) {
-        setSession('xxx');
-        router.replace('/');
+        if (result.data) {
+          console.log(result.data);
+          setSession(result.data);
+          router.replace('/');
+        }
       } else {
         console.log(result.message);
       }
@@ -59,10 +62,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
   };
 
   const biometricAuth = async () => {
-    console.log('Iniciando autenticación biométrica');
     try {
       const result = await LocalAuthentication.authenticateAsync();
-      console.log('Resultado de la autenticación biométrica:', result);
       if (result.success) {
         setSession('xxx');
         router.replace('/');
@@ -78,12 +79,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         signIn: async (credentials: SignInData) => {
-          console.log('Iniciando proceso de inicio de sesión');
           if (isBiometricAuth) {
-            console.log('Intentando autenticación biométrica');
             await biometricAuth();
           } else {
-            console.log('Intentando autenticación con credenciales');
             await auth(credentials);
           }
         },
