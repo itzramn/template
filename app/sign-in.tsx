@@ -24,7 +24,8 @@ export default function SignIn() {
     registered?: 'true';
     reset?: 'true';
   }>();
-  const { signIn, isBiometricAuth, setIsBiometricAuth } = useSession();
+  const { signIn, isBiometricAuth, setIsBiometricAuth, biometricAuth } =
+    useSession();
   const {
     control,
     handleSubmit,
@@ -42,79 +43,77 @@ export default function SignIn() {
   );
 
   return (
-    <View>
-      <View
-        className="flex flex-col h-full"
-        style={{ backgroundColor: headerBackgroundColor }}
-      >
-        <Header />
-        <ThemedView txtClassName="flex-1 justify-between p-4 rounded-t-3xl h-2/3">
-          <View>
-            {registered === 'true' && (
-              <Text className="text-success-600 text-center mb-1">
-                ¡Usuario registrado correctamente!
-              </Text>
-            )}
-            {isBiometricAuth ? (
-              <>
-                <Button
-                  txtClassName="mb-4"
-                  onPress={handleSubmit(signIn)}
-                  disabled={isSubmitting}
-                >
-                  Ingresar con biometría
-                </Button>
-                <Button
-                  variant="light"
-                  txtClassName="mb-4"
-                  onPress={() => setIsBiometricAuth(false)}
-                >
-                  Ingresar con credenciales
-                </Button>
-              </>
-            ) : (
-              <>
-                <TextField
-                  name="username"
-                  placeholder="Usuario"
-                  iconName="person-outline"
-                  control={control}
-                  error={errors.username?.message}
-                />
-                <TextField
-                  name="password"
-                  placeholder="Contraseña"
-                  iconName="key-outline"
-                  secureTextEntry={!showPassword}
-                  control={control}
-                  error={errors.password?.message}
-                  onIconPress={() => setShowPassword(!showPassword)}
-                />
-                <Link href="/recover-password" className="mb-4">
-                  <Text className="text-gray-400 text-right">
-                    ¿Olvidaste tu contraseña?
-                  </Text>
-                </Link>
-                <Button
-                  txtClassName="mb-4"
-                  onPress={handleSubmit(signIn)}
-                  disabled={isSubmitting}
-                >
-                  Ingresar
-                </Button>
-              </>
-            )}
-            <Button
-              color="black"
-              variant="light"
-              onPress={() => router.navigate('/sign-up')}
-            >
-              Regístrate
-            </Button>
-          </View>
-          <ExternalLogin />
-        </ThemedView>
-      </View>
+    <View
+      className="flex flex-col h-full"
+      style={{ backgroundColor: headerBackgroundColor }}
+    >
+      <Header />
+      <ThemedView txtClassName="flex-1 justify-between p-4 rounded-t-3xl h-2/3">
+        <View>
+          {registered === 'true' && (
+            <Text className="text-success-600 text-center mb-1">
+              ¡Usuario registrado correctamente!
+            </Text>
+          )}
+          {isBiometricAuth ? (
+            <>
+              <Button
+                txtClassName="mb-4"
+                onPress={biometricAuth}
+                disabled={isSubmitting}
+              >
+                Ingresar con biometría
+              </Button>
+              <Button
+                variant="light"
+                txtClassName="mb-4"
+                onPress={() => setIsBiometricAuth(false)}
+              >
+                Ingresar con credenciales
+              </Button>
+            </>
+          ) : (
+            <>
+              <TextField
+                name="username"
+                placeholder="Usuario"
+                iconName="person-outline"
+                control={control}
+                error={errors.username?.message}
+              />
+              <TextField
+                name="password"
+                placeholder="Contraseña"
+                iconName="key-outline"
+                secureTextEntry={!showPassword}
+                control={control}
+                error={errors.password?.message}
+                onIconPress={() => setShowPassword(!showPassword)}
+              />
+              <Link href="/recover-password" className="mb-4">
+                <Text className="text-gray-400 text-right">
+                  ¿Olvidaste tu contraseña?
+                </Text>
+              </Link>
+              <Button
+                txtClassName="mb-4"
+                onPress={handleSubmit(signIn)}
+                disabled={isSubmitting}
+              >
+                Ingresar
+              </Button>
+            </>
+          )}
+          <Button
+            color="black"
+            variant="light"
+            onPress={() => router.navigate('/sign-up')}
+          >
+            Regístrate
+          </Button>
+        </View>
+        <ExternalLogin />
+      </ThemedView>
     </View>
   );
 }

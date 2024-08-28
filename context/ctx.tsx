@@ -12,6 +12,7 @@ import { SignInData } from '@/types/auth';
 
 const AuthContext = createContext<{
   signIn: (credentials: SignInData) => void;
+  biometricAuth: () => void;
   signOut: () => void;
   session?: string | null;
   isLoading: boolean;
@@ -19,6 +20,7 @@ const AuthContext = createContext<{
   setIsBiometricAuth: (value: boolean) => void;
 }>({
   signIn: () => null,
+  biometricAuth: () => null,
   signOut: () => null,
   session: null,
   isLoading: false,
@@ -59,7 +61,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
     }
   };
 
-  const biometricAuth = async () => {
+  const handleBiometricAuth = async () => {
     try {
       const result = await LocalAuthentication.authenticateAsync();
       if (result.success) {
@@ -77,11 +79,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
     <AuthContext.Provider
       value={{
         signIn: async (credentials: SignInData) => {
-          if (isBiometricAuth) {
-            await biometricAuth();
-          } else {
-            await auth(credentials);
-          }
+          await auth(credentials);
+        },
+        biometricAuth: async () => {
+          await handleBiometricAuth();
         },
         signOut: () => {
           setSession(null);
