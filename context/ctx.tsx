@@ -3,8 +3,10 @@ import {
   createContext,
   type PropsWithChildren,
   useState,
+  useEffect,
 } from 'react';
 import { useStorageState } from '@/hooks/useStorageState';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { router } from 'expo-router';
 import { AuthAPI } from '@/api/auth.api';
@@ -42,7 +44,35 @@ export function useSession() {
 
 export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] = useStorageState('session');
-  const [isBiometricAuth, setIsBiometricAuth] = useState(true);
+  const [isBiometricAuth, setIsBiometricAuth] = useState(false);
+
+  useEffect(() => {
+    const loadBiometric = async () => {
+      try {
+        const savedBiometric = await AsyncStorage.getItem('isBiometricAuth');
+        if (savedBiometric) {
+          setIsBiometricAuth(savedBiometric === 'true');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadBiometric();
+  }, []);
+
+  const saveBiometric = async (value: boolean) => {
+    setIsBiometricAuth(value);
+    try {
+      if (!value) {
+        await AsyncStorage.removeItem('isBiometricAuth');
+      } else {
+        await AsyncStorage.setItem('isBiometricAuth', value.toString());
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const auth = async (credentials: SignInData) => {
     try {
@@ -90,7 +120,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         session,
         isLoading,
         isBiometricAuth,
-        setIsBiometricAuth,
+        setIsBiometricAuth: saveBiometric,
       }}
     >
       {children}

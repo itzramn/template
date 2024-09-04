@@ -13,7 +13,6 @@ export class AuthAPI extends BaseAPI {
   async login(credentials: SignInData): Promise<APIResponse<string>> {
     try {
       const response = await this.api.post('/auth/sign-in', credentials);
-      console.log('response', response);
       return handleAPIResponse(response);
     } catch (error) {
       return handleAPIError(error);

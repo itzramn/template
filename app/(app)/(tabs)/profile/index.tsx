@@ -100,6 +100,8 @@ function Preferences() {
             text="Autenticación biométrica"
             value="Activadas"
             icon="finger-print-outline"
+            isEnabled={isBiometricAuth}
+            setIsEnabled={setIsBiometricAuth}
           />
         </View>
       </View>
@@ -123,7 +125,10 @@ type PreferenceItemProps = {
   text: string;
   value?: string;
   icon: keyof typeof Ionicons.glyphMap;
+  isEnabled?: boolean;
+  setIsEnabled?: (value: boolean) => void;
 };
+
 function PreferenceItem({ text, icon, value = '' }: PreferenceItemProps) {
   return (
     <View className="flex flex-row items-center mb-2">
@@ -146,8 +151,12 @@ function PreferenceItem({ text, icon, value = '' }: PreferenceItemProps) {
   );
 }
 
-function PreferenceItemSwitcher({ text, icon }: PreferenceItemProps) {
-  const [isEnabled, setIsEnabled] = useState(false);
+function PreferenceItemSwitcher({
+  text,
+  icon,
+  isEnabled,
+  setIsEnabled,
+}: PreferenceItemProps) {
   return (
     <View className="flex flex-row items-center mb-2">
       <SquircleView
